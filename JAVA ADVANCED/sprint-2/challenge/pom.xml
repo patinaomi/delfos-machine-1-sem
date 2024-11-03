@@ -69,6 +69,11 @@
             <version>13.0</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Starter Mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

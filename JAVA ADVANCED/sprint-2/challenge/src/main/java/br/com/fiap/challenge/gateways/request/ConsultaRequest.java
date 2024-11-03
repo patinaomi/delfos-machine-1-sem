@@ -5,10 +5,12 @@ import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Dentista;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.time.LocalDate;
 
 @Data
-public class ConsultaRequest {
+public class ConsultaRequest extends RepresentationModel<ConsultaRequest> {
 
     @NotNull(message = "Cliente não pode ser nulo")
     private Cliente cliente;

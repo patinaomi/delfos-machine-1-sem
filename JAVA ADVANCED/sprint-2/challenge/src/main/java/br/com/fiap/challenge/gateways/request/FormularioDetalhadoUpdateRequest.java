@@ -1,11 +1,12 @@
 package br.com.fiap.challenge.gateways.request;
 
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
 
 @Data
-public class FormularioDetalhadoUpdateRequest {
+public class FormularioDetalhadoUpdateRequest extends RepresentationModel<FormularioDetalhadoUpdateRequest> {
 
     private String profissao;
     private Double rendaMensal;

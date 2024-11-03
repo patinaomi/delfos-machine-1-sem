@@ -4,9 +4,10 @@ import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Especialidade;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
-public class DentistaRequest {
+public class DentistaRequest extends RepresentationModel<DentistaRequest> {
 
     @NotNull(message = "Nome não pode ser nulo")
     private String nome;

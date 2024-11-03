@@ -2,11 +2,12 @@ package br.com.fiap.challenge.gateways.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
 
 @Data
-public class ConsultaUpdateRequest {
+public class ConsultaUpdateRequest extends RepresentationModel<ConsultaUpdateRequest> {
 
     private String tipoServico;
 

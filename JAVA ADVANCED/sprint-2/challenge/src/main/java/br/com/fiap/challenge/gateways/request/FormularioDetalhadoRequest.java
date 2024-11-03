@@ -4,11 +4,12 @@ import br.com.fiap.challenge.domains.Cliente;
 import br.com.fiap.challenge.domains.EstadoCivil;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
 
 @Data
-public class FormularioDetalhadoRequest {
+public class FormularioDetalhadoRequest extends RepresentationModel<FormularioDetalhadoRequest> {
 
     @NotNull(message = "Cliente não pode ser nulo")
     private Cliente cliente;

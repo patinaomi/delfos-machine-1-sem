@@ -3,11 +3,12 @@ package br.com.fiap.challenge.gateways.request;
 import br.com.fiap.challenge.domains.Consulta;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
 
 @Data
-public class SinistroRequest {
+public class SinistroRequest extends RepresentationModel<SinistroRequest> {
 
     @NotNull(message = "Consulta não pode ser nula")
     private Consulta consulta;

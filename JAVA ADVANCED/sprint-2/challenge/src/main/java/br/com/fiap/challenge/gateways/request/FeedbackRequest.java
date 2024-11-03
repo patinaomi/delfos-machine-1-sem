@@ -5,9 +5,10 @@ import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Dentista;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
-public class FeedbackRequest {
+public class FeedbackRequest extends RepresentationModel<FeedbackRequest> {
 
     @NotNull(message = "Cliente não pode ser nulo")
     private Cliente cliente;
