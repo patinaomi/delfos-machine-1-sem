@@ -1,6 +1,8 @@
 package br.com.fiap.challenge.gateways.controller;
 
+import br.com.fiap.challenge.domains.Consulta;
 import br.com.fiap.challenge.domains.Sinistro;
+import br.com.fiap.challenge.gateways.repository.ConsultaRepository;
 import br.com.fiap.challenge.gateways.request.SinistroRequest;
 import br.com.fiap.challenge.gateways.request.SinistroUpdateRequest;
 import br.com.fiap.challenge.gateways.response.SinistroResponse;
@@ -13,11 +15,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/sinistros")
@@ -26,6 +34,7 @@ import java.util.List;
 public class SinistroController {
 
     private final SinistroService sinistroService;
+    private final ConsultaRepository consultaRepository;
 
     @Operation(summary = "Cria um novo sinistro", description = "Cria um novo sinistro com base nos dados informados")
     @ApiResponses(value = {
@@ -37,8 +46,10 @@ public class SinistroController {
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@Valid @RequestBody SinistroRequest sinistroRequest) {
         try {
+            Consulta consulta = consultaRepository.findById(sinistroRequest.getConsulta())
+                    .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
             Sinistro sinistro = Sinistro.builder()
-                    .consulta(sinistroRequest.getConsulta())
+                    .consulta(consulta)
                     .nome(sinistroRequest.getNome())
                     .descricao(sinistroRequest.getDescricao())
                     .statusSinistro(sinistroRequest.getStatusSinistro())
@@ -63,6 +74,9 @@ public class SinistroController {
                     .documentacao(sinistroSalvo.getDocumentacao())
                     .build();
 
+            Link link = linkTo(SinistroController.class).slash(sinistroSalvo.getIdSinistro()).withSelfRel();
+            sinistroResponse.add(link);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(sinistroResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar o sinistro: " + e.getMessage());
@@ -77,7 +91,11 @@ public class SinistroController {
             if (sinistros.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum sinistro encontrado.");
             }
-            return ResponseEntity.ok(sinistros);
+
+            Link selfLink = linkTo(methodOn(SinistroController.class).buscarTodos()).withSelfRel();
+            CollectionModel<List<Sinistro>> result = CollectionModel.of(Collections.singleton(sinistros), selfLink);
+
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar sinistros: " + e.getMessage());
         }
@@ -88,7 +106,20 @@ public class SinistroController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             Sinistro sinistro = sinistroService.buscarPorId(id);
-            return ResponseEntity.ok(sinistro);
+            SinistroResponse sinistroResponse = SinistroResponse.builder()
+                    .consulta(sinistro.getConsulta())
+                    .nome(sinistro.getNome())
+                    .descricao(sinistro.getDescricao())
+                    .statusSinistro(sinistro.getStatusSinistro())
+                    .descricaoStatus(sinistro.getDescricaoStatus())
+                    .valorSinistro(sinistro.getValorSinistro())
+                    .dataAbertura(sinistro.getDataAbertura())
+                    .dataResolucao(sinistro.getDataResolucao())
+                    .documentacao(sinistro.getDocumentacao())
+                    .build();
+
+            sinistroResponse.add(linkTo(methodOn(SinistroController.class).buscarPorId(id)).withSelfRel());
+            return ResponseEntity.ok(sinistroResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sinistro com ID " + id + " não encontrado.");
         } catch (Exception e) {
@@ -100,8 +131,11 @@ public class SinistroController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable String id, @Valid @RequestBody SinistroRequest sinistroRequest) {
         try {
+            Consulta consulta = consultaRepository.findById(sinistroRequest.getConsulta())
+                    .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
+
             Sinistro sinistro = Sinistro.builder()
-                    .consulta(sinistroRequest.getConsulta())
+                    .consulta(consulta)
                     .nome(sinistroRequest.getNome())
                     .descricao(sinistroRequest.getDescricao())
                     .statusSinistro(sinistroRequest.getStatusSinistro())
@@ -113,7 +147,21 @@ public class SinistroController {
                     .build();
 
             Sinistro sinistroAtualizado = sinistroService.atualizar(id, sinistro);
-            return ResponseEntity.ok(sinistroAtualizado);
+
+            SinistroResponse sinistroResponse = SinistroResponse.builder()
+                    .consulta(sinistroAtualizado.getConsulta())
+                    .nome(sinistroAtualizado.getNome())
+                    .descricao(sinistroAtualizado.getDescricao())
+                    .statusSinistro(sinistroAtualizado.getStatusSinistro())
+                    .descricaoStatus(sinistroAtualizado.getDescricaoStatus())
+                    .valorSinistro(sinistroAtualizado.getValorSinistro())
+                    .dataAbertura(sinistroAtualizado.getDataAbertura())
+                    .dataResolucao(sinistroAtualizado.getDataResolucao())
+                    .documentacao(sinistroAtualizado.getDocumentacao())
+                    .build();
+
+            sinistroResponse.add(linkTo(methodOn(SinistroController.class).buscarPorId(id)).withSelfRel());
+            return ResponseEntity.ok(sinistroResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sinistro com ID " + id + " não encontrado.");
         } catch (Exception e) {
@@ -145,7 +193,6 @@ public class SinistroController {
         try {
             Sinistro sinistro = sinistroService.buscarPorId(id);
 
-            // Atualiza apenas os campos fornecidos no request
             if (sinistroUpdateRequest.getNome() != null) {
                 sinistro.setNome(sinistroUpdateRequest.getNome());
             }
@@ -172,7 +219,21 @@ public class SinistroController {
             }
 
             Sinistro sinistroAtualizado = sinistroService.atualizar(id, sinistro);
-            return ResponseEntity.ok(sinistroAtualizado);
+
+            SinistroResponse sinistroResponse = SinistroResponse.builder()
+                    .consulta(sinistroAtualizado.getConsulta())
+                    .nome(sinistroAtualizado.getNome())
+                    .descricao(sinistroAtualizado.getDescricao())
+                    .statusSinistro(sinistroAtualizado.getStatusSinistro())
+                    .descricaoStatus(sinistroAtualizado.getDescricaoStatus())
+                    .valorSinistro(sinistroAtualizado.getValorSinistro())
+                    .dataAbertura(sinistroAtualizado.getDataAbertura())
+                    .dataResolucao(sinistroAtualizado.getDataResolucao())
+                    .documentacao(sinistroAtualizado.getDocumentacao())
+                    .build();
+
+            sinistroResponse.add(linkTo(methodOn(SinistroController.class).buscarPorId(id)).withSelfRel());
+            return ResponseEntity.ok(sinistroResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sinistro com ID " + id + " não encontrado.");
         } catch (Exception e) {

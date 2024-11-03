@@ -1,6 +1,10 @@
 package br.com.fiap.challenge.gateways.controller;
 
+import br.com.fiap.challenge.domains.Cliente;
+import br.com.fiap.challenge.domains.EstadoCivil;
 import br.com.fiap.challenge.domains.FormularioDetalhado;
+import br.com.fiap.challenge.gateways.repository.ClienteRepository;
+import br.com.fiap.challenge.gateways.repository.EstadoCivilRepository;
 import br.com.fiap.challenge.gateways.request.FormularioDetalhadoRequest;
 import br.com.fiap.challenge.gateways.request.FormularioDetalhadoUpdateRequest;
 import br.com.fiap.challenge.gateways.response.FormularioDetalhadoResponse;
@@ -19,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +36,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FormularioDetalhadoController {
 
     private final FormularioDetalhadoService formularioDetalhadoService;
+    private final ClienteRepository clienteRepository;
+    private final EstadoCivilRepository estadoCivilRepository;
 
     @Operation(summary = "Cria um novo formulário detalhado", description = "Cria um novo formulário detalhado com base nos dados informados")
     @ApiResponses(value = {
@@ -44,9 +49,14 @@ public class FormularioDetalhadoController {
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@Valid @RequestBody FormularioDetalhadoRequest formularioRequest) {
         try {
+            Cliente cliente = clienteRepository.findById(formularioRequest.getCliente())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            EstadoCivil estadoCivil = estadoCivilRepository.findById(formularioRequest.getEstadoCivil())
+                    .orElseThrow(() -> new RuntimeException("Estado civil não encontrado"));
+
             FormularioDetalhado formulario = FormularioDetalhado.builder()
-                    .cliente(formularioRequest.getCliente())
-                    .estadoCivil(formularioRequest.getEstadoCivil())
+                    .cliente(cliente)
+                    .estadoCivil(estadoCivil)
                     .historicoFamiliar(formularioRequest.getHistoricoFamiliar())
                     .profissao(formularioRequest.getProfissao())
                     .rendaMensal(formularioRequest.getRendaMensal())
@@ -122,6 +132,7 @@ public class FormularioDetalhadoController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             FormularioDetalhado formulario = formularioDetalhadoService.buscarPorId(id);
+
             FormularioDetalhadoResponse formularioDetalhadoResponse = FormularioDetalhadoResponse.builder()
                     .cliente(formulario.getCliente())
                     .estadoCivil(formulario.getEstadoCivil())
@@ -145,7 +156,7 @@ public class FormularioDetalhadoController {
                     .build();
 
             formularioDetalhadoResponse.add(linkTo(methodOn(FormularioDetalhadoController.class).buscarPorId(id)).withSelfRel());
-            return ResponseEntity.ok(formulario);
+            return ResponseEntity.ok(formularioDetalhadoResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Formulário com ID " + id + " não encontrado.");
         } catch (Exception e) {
@@ -153,33 +164,40 @@ public class FormularioDetalhadoController {
         }
     }
 
+
     @Operation(summary = "Atualizar formulário", description = "Atualiza os dados de um formulário detalhado com base no ID fornecido")
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable String id, @Valid @RequestBody FormularioDetalhadoRequest formularioRequest) {
         try {
-            FormularioDetalhado formulario = FormularioDetalhado.builder()
-                    .cliente(formularioRequest.getCliente())
-                    .estadoCivil(formularioRequest.getEstadoCivil())
-                    .historicoFamiliar(formularioRequest.getHistoricoFamiliar())
-                    .profissao(formularioRequest.getProfissao())
-                    .rendaMensal(formularioRequest.getRendaMensal())
-                    .historicoMedico(formularioRequest.getHistoricoMedico())
-                    .alergia(formularioRequest.getAlergia())
-                    .condicaoPreexistente(formularioRequest.getCondicaoPreexistente())
-                    .usoMedicamento(formularioRequest.getUsoMedicamento())
-                    .familiarComDoencasDentarias(formularioRequest.getFamiliarComDoencasDentarias())
-                    .participacaoEmProgramasPreventivos(formularioRequest.getParticipacaoEmProgramasPreventivos())
-                    .contatoEmergencial(formularioRequest.getContatoEmergencial())
-                    .pesquisaSatisfacao(formularioRequest.getPesquisaSatisfacao())
-                    .dataUltimaAtualizacao(formularioRequest.getDataUltimaAtualizacao())
-                    .frequenciaConsultaPeriodica(formularioRequest.getFrequenciaConsultaPeriodica())
-                    .sinalizacaoDeRisco(formularioRequest.getSinalizacaoDeRisco())
-                    .historicoDeViagem(formularioRequest.getHistoricoDeViagem())
-                    .historicoDeMudancasDeEndereco(formularioRequest.getHistoricoDeMudancasDeEndereco())
-                    .preferenciaDeContato(formularioRequest.getPreferenciaDeContato())
-                    .build();
+            FormularioDetalhado formularioExistente = formularioDetalhadoService.buscarPorId(id);
 
-            FormularioDetalhado formularioAtualizado = formularioDetalhadoService.atualizar(id, formulario);
+            Cliente cliente = clienteRepository.findById(formularioRequest.getCliente())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            EstadoCivil estadoCivil = estadoCivilRepository.findById(formularioRequest.getEstadoCivil())
+                    .orElseThrow(() -> new RuntimeException("Estado civil não encontrado"));
+
+            // Atualizando os campos do formulário existente com os dados do request
+            formularioExistente.setCliente(cliente);
+            formularioExistente.setEstadoCivil(estadoCivil);
+            formularioExistente.setHistoricoFamiliar(formularioRequest.getHistoricoFamiliar());
+            formularioExistente.setProfissao(formularioRequest.getProfissao());
+            formularioExistente.setRendaMensal(formularioRequest.getRendaMensal());
+            formularioExistente.setHistoricoMedico(formularioRequest.getHistoricoMedico());
+            formularioExistente.setAlergia(formularioRequest.getAlergia());
+            formularioExistente.setCondicaoPreexistente(formularioRequest.getCondicaoPreexistente());
+            formularioExistente.setUsoMedicamento(formularioRequest.getUsoMedicamento());
+            formularioExistente.setFamiliarComDoencasDentarias(formularioRequest.getFamiliarComDoencasDentarias());
+            formularioExistente.setParticipacaoEmProgramasPreventivos(formularioRequest.getParticipacaoEmProgramasPreventivos());
+            formularioExistente.setContatoEmergencial(formularioRequest.getContatoEmergencial());
+            formularioExistente.setPesquisaSatisfacao(formularioRequest.getPesquisaSatisfacao());
+            formularioExistente.setDataUltimaAtualizacao(formularioRequest.getDataUltimaAtualizacao());
+            formularioExistente.setFrequenciaConsultaPeriodica(formularioRequest.getFrequenciaConsultaPeriodica());
+            formularioExistente.setSinalizacaoDeRisco(formularioRequest.getSinalizacaoDeRisco());
+            formularioExistente.setHistoricoDeViagem(formularioRequest.getHistoricoDeViagem());
+            formularioExistente.setHistoricoDeMudancasDeEndereco(formularioRequest.getHistoricoDeMudancasDeEndereco());
+            formularioExistente.setPreferenciaDeContato(formularioRequest.getPreferenciaDeContato());
+
+            FormularioDetalhado formularioAtualizado = formularioDetalhadoService.atualizar(id, formularioExistente);
 
             FormularioDetalhadoResponse formularioResponse = FormularioDetalhadoResponse.builder()
                     .cliente(formularioAtualizado.getCliente())
@@ -206,13 +224,14 @@ public class FormularioDetalhadoController {
             Link link = linkTo(methodOn(FormularioDetalhadoController.class).buscarPorId(id)).withSelfRel();
             formularioResponse.add(link);
 
-            return ResponseEntity.ok(formularioAtualizado);
+            return ResponseEntity.ok(formularioResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Formulário com ID " + id + " não encontrado.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar formulário: " + e.getMessage());
         }
     }
+
 
     @Operation(summary = "Deletar formulário", description = "Deleta um formulário detalhado com base no ID fornecido")
     @DeleteMapping("/{id}")

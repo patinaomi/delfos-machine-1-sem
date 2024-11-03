@@ -1,8 +1,6 @@
 package br.com.fiap.challenge.gateways.request;
 
-import br.com.fiap.challenge.domains.Cliente;
-import br.com.fiap.challenge.domains.Clinica;
-import br.com.fiap.challenge.domains.Dentista;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -12,13 +10,13 @@ import org.springframework.hateoas.RepresentationModel;
 public class FeedbackRequest extends RepresentationModel<FeedbackRequest> {
 
     @NotNull(message = "Cliente não pode ser nulo")
-    private Cliente cliente;
+    private String cliente;
 
     @NotNull(message = "Dentista não pode ser nulo")
-    private Dentista dentista;
+    private String dentista;
 
     @NotNull(message = "Clínica não pode ser nula")
-    private Clinica clinica;
+    private String clinica;
 
     @NotNull(message = "Avaliação não pode ser nula")
     private Float avaliacao;

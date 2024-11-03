@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class SinistroRequest extends RepresentationModel<SinistroRequest> {
 
     @NotNull(message = "Consulta não pode ser nula")
-    private Consulta consulta;
+    private String consulta;
 
     @NotNull(message = "Nome não pode ser nulo")
     @Size(max = 100, message = "O nome do sinistro deve ter no máximo 100 caracteres")

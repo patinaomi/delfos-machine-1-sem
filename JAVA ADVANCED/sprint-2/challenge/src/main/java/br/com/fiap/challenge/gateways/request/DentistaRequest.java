@@ -23,10 +23,10 @@ public class DentistaRequest extends RepresentationModel<DentistaRequest> {
     private String telefone;
 
     @NotNull(message = "Clínica não pode ser nula")
-    private Clinica clinica;
+    private String clinica;
 
     @NotNull(message = "Especialidade não pode ser nula")
-    private Especialidade especialidade;
+    private String especialidade;
 
     @NotNull(message = "Avaliação não pode ser nula")
     private Float avaliacao;

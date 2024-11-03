@@ -24,5 +24,5 @@ public class ConsultaResponse extends RepresentationModel<ConsultaResponse> {
         String tratamentoRecomendado;
         Double custo;
         String prescricao;
-        LocalDate dataRetorn;
+        LocalDate dataRetorno;
 }

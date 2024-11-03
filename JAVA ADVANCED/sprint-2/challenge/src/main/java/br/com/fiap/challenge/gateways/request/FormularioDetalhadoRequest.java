@@ -14,10 +14,10 @@ import java.time.LocalDate;
 public class FormularioDetalhadoRequest extends RepresentationModel<FormularioDetalhadoRequest> {
 
     @NotNull(message = "Cliente não pode ser nulo")
-    private Cliente cliente;
+    private String cliente;
 
     @NotNull(message = "Estado civil não pode ser nulo")
-    private EstadoCivil estadoCivil;
+    private String estadoCivil;
 
     @Size(max = 250, message = "O histórico familiar deve ter no máximo 250 caracteres")
     private String historicoFamiliar;

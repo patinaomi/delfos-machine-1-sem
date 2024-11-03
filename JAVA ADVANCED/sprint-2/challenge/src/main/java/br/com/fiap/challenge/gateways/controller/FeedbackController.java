@@ -1,6 +1,12 @@
 package br.com.fiap.challenge.gateways.controller;
 
+import br.com.fiap.challenge.domains.Cliente;
+import br.com.fiap.challenge.domains.Clinica;
+import br.com.fiap.challenge.domains.Dentista;
 import br.com.fiap.challenge.domains.Feedback;
+import br.com.fiap.challenge.gateways.repository.ClienteRepository;
+import br.com.fiap.challenge.gateways.repository.ClinicaRepository;
+import br.com.fiap.challenge.gateways.repository.DentistaRepository;
 import br.com.fiap.challenge.gateways.request.FeedbackRequest;
 import br.com.fiap.challenge.gateways.request.FeedbackUpdateRequest;
 import br.com.fiap.challenge.gateways.response.FeedbackResponse;
@@ -32,6 +38,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
+    private final ClienteRepository clienteRepository;
+    private final DentistaRepository dentistaRepository;
+    private final ClinicaRepository clinicaRepository;
 
     @Operation(summary = "Cria um novo feedback", description = "Cria um novo feedback com base nos dados informados")
     @ApiResponses(value = {
@@ -43,10 +52,17 @@ public class FeedbackController {
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@Valid @RequestBody FeedbackRequest feedbackRequest) {
         try {
+            Cliente cliente = clienteRepository.findById(feedbackRequest.getCliente())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            Dentista dentista = dentistaRepository.findById(feedbackRequest.getDentista())
+                    .orElseThrow(() -> new RuntimeException("Dentista não encontrado"));
+            Clinica clinica = clinicaRepository.findById(feedbackRequest.getClinica())
+                    .orElseThrow(() -> new RuntimeException("Clínica não encontrada"));
+
             Feedback feedback = Feedback.builder()
-                    .cliente(feedbackRequest.getCliente())
-                    .dentista(feedbackRequest.getDentista())
-                    .clinica(feedbackRequest.getClinica())
+                    .cliente(cliente)
+                    .dentista(dentista)
+                    .clinica(clinica)
                     .avaliacao(feedbackRequest.getAvaliacao())
                     .comentario(feedbackRequest.getComentario())
                     .build();
@@ -102,7 +118,7 @@ public class FeedbackController {
                     .build();
 
             feedbackResponse.add(linkTo(methodOn(FeedbackController.class).buscarPorId(id)).withSelfRel());
-            return ResponseEntity.ok(feedback);
+            return ResponseEntity.ok(feedbackResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback com ID " + id + " não encontrado.");
         } catch (Exception e) {
@@ -114,10 +130,17 @@ public class FeedbackController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable String id, @Valid @RequestBody FeedbackRequest feedbackRequest) {
         try {
+            Cliente cliente = clienteRepository.findById(feedbackRequest.getCliente())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            Dentista dentista = dentistaRepository.findById(feedbackRequest.getDentista())
+                    .orElseThrow(() -> new RuntimeException("Dentista não encontrado"));
+            Clinica clinica = clinicaRepository.findById(feedbackRequest.getClinica())
+                    .orElseThrow(() -> new RuntimeException("Clínica não encontrada"));
+
             Feedback feedback = Feedback.builder()
-                    .cliente(feedbackRequest.getCliente())
-                    .dentista(feedbackRequest.getDentista())
-                    .clinica(feedbackRequest.getClinica())
+                    .cliente(cliente)
+                    .dentista(dentista)
+                    .clinica(clinica)
                     .avaliacao(feedbackRequest.getAvaliacao())
                     .comentario(feedbackRequest.getComentario())
                     .build();
@@ -135,7 +158,7 @@ public class FeedbackController {
             Link link = linkTo(methodOn(FeedbackController.class).buscarPorId(id)).withSelfRel();
             feedbackResponse.add(link);
 
-            return ResponseEntity.ok(feedbackAtualizado);
+            return ResponseEntity.ok(feedbackResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback com ID " + id + " não encontrado.");
         } catch (Exception e) {
@@ -188,7 +211,7 @@ public class FeedbackController {
             Link link = linkTo(methodOn(FeedbackController.class).buscarPorId(id)).withSelfRel();
             feedbackResponse.add(link);
 
-            return ResponseEntity.ok(feedbackAtualizado);
+            return ResponseEntity.ok(feedbackResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback com ID " + id + " não encontrado.");
         } catch (Exception e) {

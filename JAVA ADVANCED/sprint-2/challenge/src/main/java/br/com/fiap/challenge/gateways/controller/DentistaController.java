@@ -1,6 +1,10 @@
 package br.com.fiap.challenge.gateways.controller;
 
+import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Dentista;
+import br.com.fiap.challenge.domains.Especialidade;
+import br.com.fiap.challenge.gateways.repository.ClinicaRepository;
+import br.com.fiap.challenge.gateways.repository.EspecialidadeRepository;
 import br.com.fiap.challenge.gateways.request.DentistaRequest;
 import br.com.fiap.challenge.gateways.request.DentistaUpdateRequest;
 import br.com.fiap.challenge.gateways.response.DentistaResponse;
@@ -31,6 +35,8 @@ import java.util.List;
 public class DentistaController {
 
     private final DentistaService dentistaService;
+    private final ClinicaRepository clinicaRepository;
+    private final EspecialidadeRepository especialidadeRepository;
 
     @Operation(summary = "Cria um novo dentista", description = "Cria um novo dentista com base nos dados informados")
     @ApiResponses(value = {
@@ -42,12 +48,17 @@ public class DentistaController {
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@Valid @RequestBody DentistaRequest dentistaRequest) {
         try {
+            Clinica clinica = clinicaRepository.findById(dentistaRequest.getClinica())
+                    .orElseThrow(() -> new RuntimeException("Clínica não encontrada"));
+            Especialidade especialidade = especialidadeRepository.findById(dentistaRequest.getEspecialidade())
+                    .orElseThrow(() -> new RuntimeException("Especialidade não encontrada"));
+
             Dentista dentista = Dentista.builder()
                     .nome(dentistaRequest.getNome())
                     .sobrenome(dentistaRequest.getSobrenome())
                     .telefone(dentistaRequest.getTelefone())
-                    .clinica(dentistaRequest.getClinica())
-                    .especialidade(dentistaRequest.getEspecialidade())
+                    .clinica(clinica)
+                    .especialidade(especialidade)
                     .avaliacao(dentistaRequest.getAvaliacao())
                     .build();
 
@@ -116,12 +127,17 @@ public class DentistaController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable String id, @Valid @RequestBody DentistaRequest dentistaRequest) {
         try {
+            Clinica clinica = clinicaRepository.findById(dentistaRequest.getClinica())
+                    .orElseThrow(() -> new RuntimeException("Clínica não encontrada"));
+            Especialidade especialidade = especialidadeRepository.findById(dentistaRequest.getEspecialidade())
+                    .orElseThrow(() -> new RuntimeException("Especialidade não encontrada"));
+
             Dentista dentista = Dentista.builder()
                     .nome(dentistaRequest.getNome())
                     .sobrenome(dentistaRequest.getSobrenome())
                     .telefone(dentistaRequest.getTelefone())
-                    .clinica(dentistaRequest.getClinica())
-                    .especialidade(dentistaRequest.getEspecialidade())
+                    .clinica(clinica)
+                    .especialidade(especialidade)
                     .avaliacao(dentistaRequest.getAvaliacao())
                     .build();
 

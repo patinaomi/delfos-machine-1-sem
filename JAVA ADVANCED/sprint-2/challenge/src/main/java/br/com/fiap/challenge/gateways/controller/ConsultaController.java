@@ -1,7 +1,12 @@
 package br.com.fiap.challenge.gateways.controller;
 
 import br.com.fiap.challenge.domains.Cliente;
+import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Consulta;
+import br.com.fiap.challenge.domains.Dentista;
+import br.com.fiap.challenge.gateways.repository.ClienteRepository;
+import br.com.fiap.challenge.gateways.repository.ClinicaRepository;
+import br.com.fiap.challenge.gateways.repository.DentistaRepository;
 import br.com.fiap.challenge.gateways.request.ConsultaRequest;
 import br.com.fiap.challenge.gateways.request.ConsultaUpdateRequest;
 import br.com.fiap.challenge.gateways.response.ConsultaResponse;
@@ -20,10 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-
 import java.util.Collections;
 import java.util.List;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -34,6 +37,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ConsultaController {
 
     private final ConsultaService consultaService;
+    private final ClienteRepository clienteRepository;
+    private final ClinicaRepository clinicaRepository;
+    private final DentistaRepository dentistaRepository;
 
     @Operation(summary = "Cria uma nova consulta", description = "Cria uma nova consulta com base nos dados informados")
     @ApiResponses(value = {
@@ -45,10 +51,17 @@ public class ConsultaController {
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@Valid @RequestBody ConsultaRequest consultaRequest) {
         try {
+            Cliente cliente = clienteRepository.findById(consultaRequest.getClienteId())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            Clinica clinica = clinicaRepository.findById(consultaRequest.getClinicaId())
+                    .orElseThrow(() -> new RuntimeException("Clínica não encontrada"));
+            Dentista dentista = dentistaRepository.findById(consultaRequest.getDentistaId())
+                    .orElseThrow(() -> new RuntimeException("Dentista não encontrado"));
+
             Consulta consulta = Consulta.builder()
-                    .cliente(consultaRequest.getCliente())
-                    .clinica(consultaRequest.getClinica())
-                    .dentista(consultaRequest.getDentista())
+                    .cliente(cliente)
+                    .clinica(clinica)
+                    .dentista(dentista)
                     .tipoServico(consultaRequest.getTipoServico())
                     .dataConsulta(consultaRequest.getDataConsulta())
                     .statusConsulta(consultaRequest.getStatusConsulta())
@@ -74,10 +87,10 @@ public class ConsultaController {
                     .tratamentoRecomendado(consultaSalva.getTratamentoRecomendado())
                     .custo(consultaSalva.getCusto())
                     .prescricao(consultaSalva.getPrescricao())
-                    .dataRetorn(consultaSalva.getDataRetorno())
+                    .dataRetorno(consultaSalva.getDataRetorno())
                     .build();
 
-            Link link = linkTo(ConsultaController.class).slash(consulta.getIdConsulta()).withSelfRel();
+            Link link = linkTo(ConsultaController.class).slash(consultaSalva.getIdConsulta()).withSelfRel();
             consultaResponse.add(link);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(consultaResponse);
@@ -98,7 +111,7 @@ public class ConsultaController {
             Link selfLink = linkTo(methodOn(ConsultaController.class).buscarTodas()).withSelfRel();
             CollectionModel<List<Consulta>> result = CollectionModel.of(Collections.singleton(consultas), selfLink);
 
-            return ResponseEntity.ok(consultas);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar consultas: " + e.getMessage());
         }
@@ -109,7 +122,7 @@ public class ConsultaController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             Consulta consulta = consultaService.buscarPorId(id);
-            ConsultaResponse consultaResponse= ConsultaResponse.builder()
+            ConsultaResponse consultaResponse = ConsultaResponse.builder()
                     .cliente(consulta.getCliente())
                     .clinica(consulta.getClinica())
                     .dentista(consulta.getDentista())
@@ -121,11 +134,11 @@ public class ConsultaController {
                     .tratamentoRecomendado(consulta.getTratamentoRecomendado())
                     .custo(consulta.getCusto())
                     .prescricao(consulta.getPrescricao())
-                    .dataRetorn(consulta.getDataRetorno())
+                    .dataRetorno(consulta.getDataRetorno())
                     .build();
 
             consultaResponse.add(linkTo(methodOn(ConsultaController.class).buscarPorId(id)).withSelfRel());
-            return ResponseEntity.ok(consulta);
+            return ResponseEntity.ok(consultaResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta com ID " + id + " não encontrada.");
         } catch (Exception e) {
@@ -137,10 +150,17 @@ public class ConsultaController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable String id, @Valid @RequestBody ConsultaRequest consultaRequest) {
         try {
+            Cliente cliente = clienteRepository.findById(consultaRequest.getClienteId())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            Clinica clinica = clinicaRepository.findById(consultaRequest.getClinicaId())
+                    .orElseThrow(() -> new RuntimeException("Clínica não encontrada"));
+            Dentista dentista = dentistaRepository.findById(consultaRequest.getDentistaId())
+                    .orElseThrow(() -> new RuntimeException("Dentista não encontrado"));
+
             Consulta consulta = Consulta.builder()
-                    .cliente(consultaRequest.getCliente())
-                    .clinica(consultaRequest.getClinica())
-                    .dentista(consultaRequest.getDentista())
+                    .cliente(cliente)
+                    .clinica(clinica)
+                    .dentista(dentista)
                     .tipoServico(consultaRequest.getTipoServico())
                     .dataConsulta(consultaRequest.getDataConsulta())
                     .statusConsulta(consultaRequest.getStatusConsulta())
@@ -166,13 +186,13 @@ public class ConsultaController {
                     .tratamentoRecomendado(consultaAtualizada.getTratamentoRecomendado())
                     .custo(consultaAtualizada.getCusto())
                     .prescricao(consultaAtualizada.getPrescricao())
-                    .dataRetorn(consultaAtualizada.getDataRetorno())
+                    .dataRetorno(consultaAtualizada.getDataRetorno())
                     .build();
 
             Link link = linkTo(methodOn(ConsultaController.class).atualizar(id, consultaRequest)).withSelfRel();
             consultaResponse.add(link);
 
-            return ResponseEntity.ok(consultaAtualizada);
+            return ResponseEntity.ok(consultaResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta com ID " + id + " não encontrada.");
         } catch (Exception e) {
@@ -204,7 +224,6 @@ public class ConsultaController {
         try {
             Consulta consulta = consultaService.buscarPorId(id);
 
-            // Atualiza apenas os campos fornecidos no request
             if (consultaUpdateRequest.getTipoServico() != null) {
                 consulta.setTipoServico(consultaUpdateRequest.getTipoServico());
             }
@@ -247,13 +266,13 @@ public class ConsultaController {
                     .tratamentoRecomendado(consultaAtualizada.getTratamentoRecomendado())
                     .custo(consultaAtualizada.getCusto())
                     .prescricao(consultaAtualizada.getPrescricao())
-                    .dataRetorn(consultaAtualizada.getDataRetorno())
+                    .dataRetorno(consultaAtualizada.getDataRetorno())
                     .build();
 
             Link link = linkTo(methodOn(ConsultaController.class).atualizarParcialmente(id, consultaUpdateRequest)).withSelfRel();
             consultaResponse.add(link);
 
-            return ResponseEntity.ok(consultaAtualizada);
+            return ResponseEntity.ok(consultaResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta com ID " + id + " não encontrada.");
         } catch (Exception e) {

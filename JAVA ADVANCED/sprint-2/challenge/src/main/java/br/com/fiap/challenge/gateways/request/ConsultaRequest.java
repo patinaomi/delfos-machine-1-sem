@@ -14,14 +14,14 @@ import java.time.LocalDate;
 @Data
 public class ConsultaRequest extends RepresentationModel<ConsultaRequest> {
 
-    @NotNull(message = "Cliente não pode ser nulo")
-    private Cliente cliente;
+    @NotNull(message = "ID do Cliente não pode ser nulo")
+    private String clienteId;
 
-    @NotNull(message = "Clínica não pode ser nula")
-    private Clinica clinica;
+    @NotNull(message = "ID da Clínica não pode ser nulo")
+    private String clinicaId;
 
-    @NotNull(message = "Dentista não pode ser nulo")
-    private Dentista dentista;
+    @NotNull(message = "ID do Dentista não pode ser nulo")
+    private String dentistaId;
 
     @NotNull(message = "Tipo de serviço não pode ser nulo")
     private String tipoServico;
