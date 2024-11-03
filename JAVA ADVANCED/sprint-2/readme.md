@@ -1,18 +1,21 @@
 
 
+
 # Challenge Odontoprev
+<p align="center">  <img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>  </p>
 
 ## Índice
 
 1. [Sobre o Projeto](#sobre-o-projeto)
 2. [Integrantes](#integrantes)
 3. [Cronograma de Desenvolvimento](#cronograma-de-desenvolvimento)
-4. [Como Rodar o Projeto](#como-rodar-o-projeto)
-5. [Pré-requisitos](#pré-requisitos)
-6. [Modelo Relacional (DER)](#modelo-relacional-der)
-7. [Diagrama de Classes](#diagrama-de-classes)
-8. [Documentação da API](#documentação-da-api)
-9. [Video](#video)
+4. [Atualização Sprint 2](#atualização-sprint-2)
+5. [Como Rodar o Projeto](#como-rodar-o-projeto)
+6. [Pré-requisitos](#pré-requisitos)
+7. [Modelo Relacional (DER)](#modelo-relacional-der)
+8. [Diagrama de Classes](#diagrama-de-classes)
+9. [Documentação da API](#documentação-da-api)
+10. [Video](#video)
 
 ---
 
@@ -49,6 +52,15 @@ Responsável pelo desenvolvimento Java Advanced, Mobile Application Development 
 | Documentação            | Criação da documentação final              | 05/11/2024    | 06/11/2024     | Sim                  | Cláudio       |
 | Deploy                  | Implantação do sistema                     | 05/11/2024    | 08/11/2024     | Sim                  | Equipe        |
 
+## Atualização Sprint 2
+Nesta sprint, foram implementadas melhorias significativas para a experiência do usuário e a escalabilidade do sistema. As principais adições incluem:
+
+-   **Implementação de HATEOAS**: Para facilitar a navegação entre recursos e melhorar a usabilidade da API, foram adicionados links HATEOAS (Hypermedia as the Engine of Application State) nos endpoints. Isso permite que os clientes da API naveguem por diferentes recursos sem precisar conhecer todos os endpoints de antemão.
+    
+-   **Envio de E-mail com MailSender do Spring Boot**: Ao cadastrar um novo usuário, o sistema agora envia um e-mail de boas-vindas utilizando o MailSender do Spring Boot. Esta funcionalidade melhora a comunicação com os usuários e garante que eles estejam informados sobre o cadastro com sucesso.
+    
+
+Essas implementações visam não apenas melhorar a usabilidade e a experiência do usuário, mas também aumentar a modularidade e a manutenibilidade do código.
 ## Como Rodar o Projeto
 
 Para rodar a aplicação Java Spring Boot, siga as instruções abaixo:
@@ -98,17 +110,17 @@ Com as dependências instaladas, rode a aplicação com:
 
 
 ## Modelo Relacional (DER)
-![Modelo Relacional](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/Relational_1.png)
+![Modelo Relacional](Relational_1.png)
 
 ## Diagrama de Classes
-![Diagrama de Classes](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/diagrama-de-classes.png)
+![Diagrama de Classes](diagrama-de-classes.png)
 
-![Domains](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/domains.png)
+![Domains](domains.png)
 
 ## Documentação da API
 Foi realizada a documentação da API utilizando **Swagger**, o que facilita a visualização e teste de todos os endpoints disponíveis no sistema. Para acessar a documentação completa, basta visitar o link [Swagger](http://localhost:8080/swagger-ui/index.html#/) quando o projeto estiver em execução.
 
-Além disso, o projeto conta com um arquivo de exportação do Postman contendo todas as requisições para teste dos endpoints da API. Esse arquivo pode ser importado diretamente no Postman, facilitando a realização de testes e a validação das funcionalidades disponíveis. Basta acessar o arquivo [por este link](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/Challenge%20Odontoprev.postman_collection.json) e importar no Postman para ter acesso a todas as operações configuradas.
+Além disso, o projeto conta com um arquivo de exportação do Postman contendo todas as requisições para teste dos endpoints da API. Esse arquivo pode ser importado diretamente no Postman, facilitando a realização de testes e a validação das funcionalidades disponíveis. Basta acessar o arquivo [por este link](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/sprint-2/Challenge%20Odontoprev.postman_collection.json) e importar no Postman para ter acesso a todas as operações configuradas.
 
 #### Cliente
 
