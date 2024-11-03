@@ -1,4 +1,4 @@
-
+SET SERVEROUTPUT ON;
 -- Nome dos Integrantes: 
 -- Claudio Silva Bispo RM553472
 -- Patricia Naomi Yamagishi RM552981
@@ -566,9 +566,6 @@ END;
 // Inserts Cliente
 
 INSERT INTO Cliente (nome, sobrenome, email, telefone, data_nasc, endereco) VALUES
-('Alice', 'Silva', 'alice.silva@example.com', '11987654321', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'Rua das Flores, 123');
-
-INSERT INTO Cliente (nome, sobrenome, email, telefone, data_nasc, endereco) VALUES
 ('Bruno', 'Santos', 'example.com', '11976543210', TO_DATE('1985-03-20', 'YYYY-MM-DD'), 'Avenida Central, 456');
 
 INSERT INTO Cliente (nome, sobrenome, email, telefone, data_nasc, endereco) VALUES
@@ -619,6 +616,9 @@ BEGIN
     END IF;
 END;
 
+-- Executar o processo de input
+EXEC solicitar_e_validar_data_nasc;
+
 
 -- Procedimento para avaliar Datas de Nascimento na tabela
 CREATE OR REPLACE PROCEDURE avaliar_datas_nasc IS
@@ -641,8 +641,6 @@ BEGIN
 
 END;
 
--- Executar o processo de input
-EXEC solicitar_e_validar_data_nasc;
 
 -- Executar o processo na tabela para validar os dados
 EXEC avaliar_datas_nasc;
@@ -750,7 +748,7 @@ END;
 
 -- Testar o Delete
 
-EXEC deletar_cliente(1);
+EXEC deletar_cliente(14);
 select * from Cliente;
 
 -- Procedure para INSERT na Tabela Clinica
@@ -816,13 +814,15 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Erro ao deletar clínica: ' || SQLERRM);
 END;
 
--- Deste para os próximos, vou conferir tudo de uma vez, visto que em Cliente funcionou.
+-- Teste para os próximos, vou conferir tudo de uma vez, visto que em Cliente funcionou.
 -- Testar os três processos
 
 select * from Clinica;
 EXEC inserir_clinica('Clínica Saude e Sorriso', 'Rua das Flores, 123', '11987654321', 4, 150);
+select * from Clinica;
 EXEC atualizar_clinica (1, 'Nome Atualizado da Clinica', 'Endereço Atualizado', '987654321', 5, 200);
-EXEC deletar_clinica(1);
+select * from Clinica;
+EXEC deletar_clinica(11);
 
 -- Procedure para INSERT na Tabela Especialidade
 select * from especialidade;
@@ -879,7 +879,7 @@ END;
 select * from especialidade;
 EXEC inserir_especialidade('Ortodontia');
 EXEC atualizar_especialidade(1, 'Endodontia');
-EXEC deletar_especialidade(1);
+EXEC deletar_especialidade(11);
 
 -- Procedure para INSERT na Tabela Dentista
 
@@ -962,7 +962,7 @@ EXEC inserir_dentista('João', 'Silva', '11987654321', 2, 2, 4);
 EXEC atualizar_dentista(1, 'João', 'Silva', '11987654321', 1, 1, 5);
 
 select * from dentista;
-EXEC deletar_dentista(7); -- ajustar para o id que consta no select antes de executar. Defina o que deseja excluir.
+EXEC deletar_dentista(11); -- ajustar para o id que consta no select antes de executar. Defina o que deseja excluir.
 
 
 -- Procedure para INSERT na Tabela Feedback
