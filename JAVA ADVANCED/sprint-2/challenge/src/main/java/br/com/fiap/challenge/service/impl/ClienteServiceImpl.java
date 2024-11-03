@@ -13,11 +13,20 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final EmailServiceImpl emailService;
 
     @Override
     public Cliente criar(Cliente cliente) {
         cliente.setTelefone(limparCaracteresTel(cliente.getTelefone()));
-        return clienteRepository.save(cliente);
+        Cliente clienteSalvo = clienteRepository.save(cliente);
+
+        String mensagemEmail = String.format(
+                "Olá, %s! Seu cadastro foi realizado com sucesso!",
+                cliente.getNome()
+        );
+
+        emailService.enviarEmail(cliente.getEmail(), "Cadastro Realizado", mensagemEmail);
+        return clienteSalvo;
     }
 
     @Override

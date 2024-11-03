@@ -28,7 +28,7 @@ public class Clinica {
     @Column(name = "telefone", length = 15, nullable = false)
     private String telefone;
 
-    @Column(name = "avaliacao", precision=2, scale=1, nullable = false)
+    @Column(name = "avaliacao", nullable = false)
     private Float avaliacao;
 
     @Column(name = "preco_medio", nullable = false)

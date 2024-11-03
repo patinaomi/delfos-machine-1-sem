@@ -37,7 +37,7 @@ public class Sinistro {
     @Column(name = "descricao_status", length = 250)
     private String descricaoStatus;
 
-    @Column(name = "valor_sinistro", precision = 10, scale = 2)
+    @Column(name = "valor_sinistro")
     private Double valorSinistro;
 
     @Column(name = "data_abertura")

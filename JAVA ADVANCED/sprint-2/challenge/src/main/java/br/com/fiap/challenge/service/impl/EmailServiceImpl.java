@@ -1,7 +1,8 @@
 package br.com.fiap.challenge.service.impl;
 
+import br.com.fiap.challenge.gateways.repository.ClienteRepository;
 import br.com.fiap.challenge.service.EmailService;
-
+import br.com.fiap.challenge.domains.Cliente;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private final
+    private final ClienteRepository clienteRepository;
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
@@ -37,12 +38,12 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    public void enviarEmailErroTransacao(Long clienteId, String mensagemErro) {
+        public void enviarEmailErroTransacao(String clienteId, String mensagemErro) {
         Cliente cliente = clienteRepository.findById(clienteId).orElse(null);
 
         if (cliente != null) {
             String mensagemErroTransacao = String.format(
-                    "Olá, %s! Não foi possível completar sua transação devido ao seguinte erro:\n\n%s\n\nPor favor, tente novamente mais tarde.",
+                    "Olá, %s! Não foi possível fazer o cadastro devido ao seguinte erro:\n\n%s\n\nPor favor, tente novamente mais tarde.",
                     cliente.getNome(),
                     mensagemErro
             );

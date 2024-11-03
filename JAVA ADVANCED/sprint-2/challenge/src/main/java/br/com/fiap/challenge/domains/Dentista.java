@@ -36,7 +36,7 @@ public class Dentista {
     @JoinColumn(name = "id_especialidade", nullable = false)
     private Especialidade especialidade;
 
-    @Column(name = "avaliacao", precision = 2, scale = 1, nullable = false)
+    @Column(name = "avaliacao", nullable = false)
     private Float avaliacao;
 
 }
