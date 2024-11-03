@@ -48,7 +48,7 @@ public class Consulta {
     @Column(name = "tratamento_recomendado", length = 250)
     private String tratamentoRecomendado;
 
-    @Column(name = "custo")
+    @Column(name = "custo", precision = 10, scale = 2)
     private Double custo;
 
     @Column(name = "prescricao", length = 250)

@@ -4,6 +4,7 @@ import br.com.fiap.challenge.domains.Cliente;
 import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Dentista;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -22,5 +23,6 @@ public class FeedbackRequest extends RepresentationModel<FeedbackRequest> {
     @NotNull(message = "Avaliação não pode ser nula")
     private Float avaliacao;
 
+    @Size(max = 250, message = "O comentário deve ter no máximo 250 caracteres")
     private String comentario;
 }

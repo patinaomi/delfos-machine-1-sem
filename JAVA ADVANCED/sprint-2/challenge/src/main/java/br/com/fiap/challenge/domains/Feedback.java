@@ -31,7 +31,7 @@ public class Feedback {
     @JoinColumn(name = "id_clinica", nullable = false)
     private Clinica clinica;
 
-    @Column(name = "avaliacao", nullable = false)
+    @Column(name = "avaliacao", precision = 2, scale = 1,  nullable = false)
     private Float avaliacao;
 
     @Column(name = "comentario", length = 250)

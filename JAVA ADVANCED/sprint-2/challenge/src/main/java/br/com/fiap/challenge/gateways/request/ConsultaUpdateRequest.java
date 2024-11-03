@@ -1,6 +1,7 @@
 package br.com.fiap.challenge.gateways.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -14,16 +15,21 @@ public class ConsultaUpdateRequest extends RepresentationModel<ConsultaUpdateReq
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataConsulta;
 
+    @Size(max = 1, message = "O status da consulta deve ter no máximo 1 caractere")
     private Character statusConsulta;
 
+    @Size(max = 250, message = "As observações devem ter no máximo 250 caracteres")
     private String observacoes;
 
+    @Size(max = 250, message = "Os sintomas devem ter no máximo 250 caracteres")
     private String sintomas;
 
+    @Size(max = 250, message = "O tratamento recomendado deve ter no máximo 250 caracteres")
     private String tratamentoRecomendado;
 
     private Double custo;
 
+    @Size(max = 250, message = "A prescrição deve ter no máximo 250 caracteres")
     private String prescricao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
