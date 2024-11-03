@@ -91,7 +91,80 @@ Sem mencionar que ambos vão ganhar no programa de benefício, que pode gerar pr
 
 ## Etapas do projeto
 
-Será necessário implementar seis fases no nosso projeto, para que possamos atender a demanda da OdontoPrev
+Para atender à demanda da OdontoPrev, o projeto será dividido em seis fases principais, com cada fase sendo complementada pelos arquivos betas enviados e pelos requisitos descritos.
+
+**Fase 1: Conexão com o Banco de Dados**
+
+Objetivo: Estabelecer uma conexão segura e estável com o banco de dados da OdontoPrev.
+
+Descrição:
+Implementar um sistema de autenticação para garantir acesso controlado, utilizando login e senha.
+Integrar a aplicação ao banco de dados, utilizando credenciais e parâmetros fornecidos pela OdontoPrev.
+Utilizar a biblioteca pandas para carregar e manipular os dados diretamente a partir do banco, permitindo consultas e atualizações.
+Tecnologias: Python, SQLAlchemy (ou outra biblioteca de ORM), Pandas, Banco de Dados (Oracle, MySQL, etc.)
+
+**Fase 2: Tratamento e Limpeza de Dados**
+
+**Objetivo:** Preparar os dados provenientes do banco de dados para as fases subsequentes do projeto.
+
+**Descrição:**
+
+Carregar os dados utilizando pandas.
+Realizar o tratamento de valores nulos, padronização de formatos, e correção de erros nos dados.
+Realizar análises exploratórias iniciais para identificar padrões, outliers e outras informações importantes para as próximas etapas.
+
+***Tecnologias: Python, Pandas, Numpy***
+
+**Fase 3: Modelo de Análise de Sentimento dos Feedbacks**
+
+**Objetivo:** Desenvolver um modelo para analisar o sentimento dos feedbacks recebidos pelos clientes.
+
+**Descrição:**
+
+Coletar e processar os dados de feedbacks armazenados no banco de dados.
+Utilizar técnicas de processamento de linguagem natural (NLP) para treinar um modelo de análise de sentimento.
+Classificar os feedbacks como positivos, negativos ou neutros.
+Testar e ajustar o modelo para garantir a precisão desejada.
+
+***Tecnologias: Python, NLTK (ou Spacy), Scikit-learn, Pandas***
+
+**Fase 4: Modelo de Sugestão de Consultas**
+
+**Objetivo:** Implementar um sistema de recomendação para sugerir consultas preventivas baseadas em dados de clientes.
+
+**Descrição:**
+
+Utilizar os dados dos clientes e históricos de consultas para sugerir automaticamente novas consultas preventivas.
+O modelo deve levar em consideração preferências de horário, dia da semana, e a disponibilidade de especialistas e clínicas.
+Implementar algoritmos de recomendação, como filtragem colaborativa ou baseada em conteúdo, para gerar as sugestões.
+
+***Tecnologias: Python, Scikit-learn, Pandas, Algoritmos de Recomendação***
+
+**Fase 5: Geração de Gráficos e Visualização de Dados**
+
+**Objetivo:** Fornecer uma visão clara e visual do desempenho do modelo e dos dados utilizados no projeto.
+
+**Descrição:**
+
+Gerar gráficos e relatórios a partir dos dados tratados e dos resultados do modelo de sentimento e de sugestões.
+Utilizar bibliotecas de visualização para criar gráficos interativos e relatórios claros que ajudem a entender os números reais do projeto.
+Possíveis gráficos incluem: gráficos de barras, pizza, linha do tempo de consultas sugeridas, e análise de sentimentos.
+
+***Tecnologias: Python, Matplotlib, Seaborn, Plotly, Power BI (se necessário)***
+
+**Fase 6: Desenvolvimento e Implementação da API**
+
+**Objetivo:** Criar uma API RESTful para integrar o sistema com outros projetos e permitir a utilização dos dados e modelos em diferentes aplicações.
+
+**Descrição:**
+
+Desenvolver uma API que permite a consulta e sugestão de consultas, além de obter os resultados da análise de sentimento.
+A API deve ser segura, eficiente e escalável, atendendo aos padrões da OdontoPrev.
+Implementar endpoints para facilitar o acesso aos dados e ao modelo de recomendação.
+
+***Tecnologias: Python, Flask ou FastAPI, SQLAlchemy, Docker (para deploy se necessário)***
+
+## Detalhes das Etapas
 
 **Coletar Dados do Cliente**
 Utilizar o formulário de cadastro para coletar informações como localização preferida pelo cliente, avaliações de satisfação das clinicas e médicos, além dos valores de consultas com preco acessível. Na solução apresentada, se tiver qualidade, mostra que mesmo com custo baixo, a consulta pode atender a necessidade do cliente.
@@ -135,8 +208,13 @@ Essas informações já estão no banco de dados, para coletar elas, usaremos a 
 
 ```
 
+***Importante***
+Não iremos apenas consumir as informações do banco de forma simples. Estamos criando um script em SQL que conterá várias Procedures, as quais se conectarão ao backend em Java e Kotlin, alimentando o banco de dados Oracle. Com essas informações, vamos agregar ao projeto para que possamos utilizar os dados da melhor maneira possível.
+
 ***O que será feito - Pandas***
-Processar Dados com Pandas: Utilizar a biblioteca Pandas para organizar e analisar os dados dos clientes, feedback, clinicas e especilistas.
+Utilizaremos a biblioteca Pandas para organizar e analisar os dados dos clientes, feedbacks, clínicas e especialistas. Um exemplo simples (beta) seria tratar e dividir os dados para o treinamento do modelo de feedback, de modo a apresentar as informações ao Especialista/Médico de forma clara e organizada.
+
+Por exemplo, um cliente pode ter avaliado a consulta com nota 5 (nota máxima), mas, no comentário, mencionou que o médico foi grosso e não deu a devida atenção que considerava necessária. Nesse caso, a nota não será mais 5, mas sim 1 ou 2, pois esse tipo de comentário carrega sentimentos negativos que podem ser melhorados. Essas notas impactarão o programa de benefícios desse especialista, e ele precisará trabalhar para melhorar sua avaliação, a fim de que novas consultas sejam direcionadas a ele.
 
 ```bash
     # Carregar dados em um DataFrame do Pandas
@@ -161,7 +239,8 @@ Processar Dados com Pandas: Utilizar a biblioteca Pandas para organizar e analis
 
 ***O que será feito - Scikit-Learn***
 
-Classificação com Scikit-Learn: Utilizar Scikit-Learn para classificar as clínicas e especialistas com base nas avaliações de satisfação, além de agrupar os feedbacks em categorias, sendo excelente, bons e ruins.
+Utilizar Scikit-Learn para classificar as clínicas e especialistas com base nas avaliações de satisfação, além de agrupar os feedbacks em categorias, sendo excelente, bons e ruins. Ajustar as notas dos feedbacks de acordos com os textos e enviar esses dados para as clínicas e especialistas, pois eles terão que trabalhar esse item para receber mais consultas.
+Também utilizando este módulo, podemos agrupar os dados de produtos e indicar os melhores aos pacientes.
 
 ```bash 
     import pandas as pd
@@ -277,8 +356,24 @@ Resposta pode vir assim:
 
 ***O que será feito - PyTorch***
 
-Utilizar PyTorch para treinar um modelo de IA que sugira consultas preventivas com base nos dados do cliente.
+Vamos utilizar o PyTorch para treinar um modelo de inteligência artificial que será capaz de sugerir consultas preventivas com base nos dados dos clientes. Inicialmente, desenvolvemos um modelo básico com o Scikit-Learn, mas ele não atendeu completamente às nossas necessidades, especialmente em termos de complexidade e flexibilidade no tratamento dos dados.
+
+Para oferecer sugestões de consultas mais precisas, será necessário avaliar múltiplos fatores, incluindo a localização geográfica dos clientes e das clínicas, o que envolve a roteirização eficiente entre esses pontos. Além disso, o modelo precisará ser capaz de processar e integrar informações de várias tabelas ao mesmo tempo, analisando não apenas dados tabulares, mas também outros tipos de dados como imagens, quando necessário.
+
+Nosso objetivo final é criar um mecanismo de recomendação que utilize IA para sugerir consultas personalizadas aos clientes de forma automática. O PyTorch se destaca por sua capacidade de lidar com modelos complexos, suportar diferentes tipos de dados (textos, imagens, etc.) e oferecer maior controle sobre a arquitetura da rede neural. Assim, ele nos permitirá desenvolver um sistema robusto e escalável para esse propósito.
+
+Como o PyTorch pode nos ajudar?
+
+Flexibilidade e Eficiência: Diferente do Scikit-Learn, o PyTorch oferece maior flexibilidade na construção de modelos personalizados, além de ser altamente eficiente no processamento de grandes volumes de dados.
+Treinamento de Redes Neurais: Com o PyTorch, podemos construir redes neurais profundas para aprender padrões complexos a partir dos dados dos clientes, identificando as melhores sugestões de consultas com base em múltiplas variáveis.
+Integração de Dados Heterogêneos: O PyTorch permite a incorporação de diferentes tipos de dados, desde tabelas relacionais até imagens e outros tipos de mídia, o que expandirá o escopo das análises e sugestões.
+Suporte para Processamento Paralelo: O framework oferece suporte robusto para processamento em GPU, acelerando o treinamento de modelos, especialmente ao lidar com grandes quantidades de dados e features complexas.
+Com o PyTorch, vamos além de simples análises, criando um modelo que aprende a partir de dados diversos, evolui com o tempo e fornece recomendações mais assertivas e personalizadas para cada cliente.
+
 
 ***O que será feito - Matplotlib***
+
 Utilizar Matplotlib para criar gráficos que mostrem os custos e economias das consultas sugeridas. Essa informação ficará disponível no painel do cliente e das clínicas.
+
+Deixamos um exemplo de uso dos gráficos, na pasta que se chama beta > Principal > beta-gerencial-graficos.ipynb
 
