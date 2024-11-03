@@ -29,7 +29,6 @@ public class ConsultaRequest extends RepresentationModel<ConsultaRequest> {
     @NotNull(message = "Data da consulta não pode ser nula")
     private LocalDate dataConsulta;
 
-    @Size(max = 1, message = "O status da consulta deve ter no máximo 1 caractere")
     private Character statusConsulta;
 
     @Size(max = 250, message = "As observações devem ter no máximo 250 caracteres")

@@ -13,10 +13,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -57,6 +62,9 @@ public class DentistaController {
                     .avaliacao(dentistaSalvo.getAvaliacao())
                     .build();
 
+            Link link = linkTo(DentistaController.class).slash(dentistaSalvo.getIdDentista()).withSelfRel();
+            dentistaResponse.add(link);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(dentistaResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar o dentista: " + e.getMessage());
@@ -71,6 +79,10 @@ public class DentistaController {
             if (dentistas.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum dentista encontrado.");
             }
+
+            Link selfLink = linkTo(methodOn(DentistaController.class).buscarTodos()).withSelfRel();
+            CollectionModel<List<Dentista>> result = CollectionModel.of(Collections.singleton(dentistas), selfLink);
+
             return ResponseEntity.ok(dentistas);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar dentistas: " + e.getMessage());
@@ -82,6 +94,16 @@ public class DentistaController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             Dentista dentista = dentistaService.buscarPorId(id);
+            DentistaResponse dentistaResponse = DentistaResponse.builder()
+                    .nome(dentista.getNome())
+                    .sobrenome(dentista.getSobrenome())
+                    .telefone(dentista.getTelefone())
+                    .clinica(dentista.getClinica())
+                    .especialidade(dentista.getEspecialidade())
+                    .avaliacao(dentista.getAvaliacao())
+                    .build();
+
+            dentistaResponse.add(linkTo(methodOn(DentistaController.class).buscarPorId(id)).withSelfRel());
             return ResponseEntity.ok(dentista);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dentista com ID " + id + " não encontrado.");
@@ -104,6 +126,19 @@ public class DentistaController {
                     .build();
 
             Dentista dentistaAtualizado = dentistaService.atualizar(id, dentista);
+
+            DentistaResponse dentistaResponse = DentistaResponse.builder()
+                    .nome(dentistaAtualizado.getNome())
+                    .sobrenome(dentistaAtualizado.getSobrenome())
+                    .telefone(dentistaAtualizado.getTelefone())
+                    .clinica(dentistaAtualizado.getClinica())
+                    .especialidade(dentistaAtualizado.getEspecialidade())
+                    .avaliacao(dentistaAtualizado.getAvaliacao())
+                    .build();
+
+            Link link = linkTo(methodOn(DentistaController.class).buscarPorId(id)).withSelfRel();
+            dentistaResponse.add(link);
+
             return ResponseEntity.ok(dentistaAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dentista com ID " + id + " não encontrado.");
@@ -151,6 +186,19 @@ public class DentistaController {
             }
 
             Dentista dentistaAtualizado = dentistaService.atualizar(id, dentista);
+
+            DentistaResponse dentistaReponse = DentistaResponse.builder()
+                    .nome(dentistaAtualizado.getNome())
+                    .sobrenome(dentistaAtualizado.getSobrenome())
+                    .telefone(dentistaAtualizado.getTelefone())
+                    .clinica(dentistaAtualizado.getClinica())
+                    .especialidade(dentistaAtualizado.getEspecialidade())
+                    .avaliacao(dentistaAtualizado.getAvaliacao())
+                    .build();
+
+            Link link = linkTo(methodOn(DentistaController.class).buscarPorId(id)).withSelfRel();
+            dentistaReponse.add(link);
+
             return ResponseEntity.ok(dentistaAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dentista com ID " + id + " não encontrado.");

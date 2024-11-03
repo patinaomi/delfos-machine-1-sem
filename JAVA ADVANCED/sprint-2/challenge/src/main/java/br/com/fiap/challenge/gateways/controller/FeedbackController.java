@@ -13,11 +13,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/feedbacks")
@@ -55,6 +61,9 @@ public class FeedbackController {
                     .comentario(feedbackSalvo.getComentario())
                     .build();
 
+            Link link = linkTo(FeedbackController.class).slash(feedbackSalvo.getIdFeedback()).withSelfRel();
+            feedbackResponse.add(link);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(feedbackResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar o feedback: " + e.getMessage());
@@ -69,6 +78,10 @@ public class FeedbackController {
             if (feedbacks.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum feedback encontrado.");
             }
+
+            Link selfLink = linkTo(methodOn(FeedbackController.class).buscarTodos()).withSelfRel();
+            CollectionModel<List<Feedback>> result = CollectionModel.of(Collections.singleton(feedbacks), selfLink);
+
             return ResponseEntity.ok(feedbacks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar feedbacks: " + e.getMessage());
@@ -80,6 +93,15 @@ public class FeedbackController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             Feedback feedback = feedbackService.buscarPorId(id);
+            FeedbackResponse feedbackResponse = FeedbackResponse.builder()
+                    .cliente(feedback.getCliente())
+                    .dentista(feedback.getDentista())
+                    .clinica(feedback.getClinica())
+                    .avaliacao(feedback.getAvaliacao())
+                    .comentario(feedback.getComentario())
+                    .build();
+
+            feedbackResponse.add(linkTo(methodOn(FeedbackController.class).buscarPorId(id)).withSelfRel());
             return ResponseEntity.ok(feedback);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback com ID " + id + " não encontrado.");
@@ -101,6 +123,18 @@ public class FeedbackController {
                     .build();
 
             Feedback feedbackAtualizado = feedbackService.atualizar(id, feedback);
+
+            FeedbackResponse feedbackResponse = FeedbackResponse.builder()
+                    .cliente(feedbackAtualizado.getCliente())
+                    .dentista(feedbackAtualizado.getDentista())
+                    .clinica(feedbackAtualizado.getClinica())
+                    .avaliacao(feedbackAtualizado.getAvaliacao())
+                    .comentario(feedbackAtualizado.getComentario())
+                    .build();
+
+            Link link = linkTo(methodOn(FeedbackController.class).buscarPorId(id)).withSelfRel();
+            feedbackResponse.add(link);
+
             return ResponseEntity.ok(feedbackAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback com ID " + id + " não encontrado.");
@@ -142,6 +176,18 @@ public class FeedbackController {
             }
 
             Feedback feedbackAtualizado = feedbackService.atualizar(id, feedback);
+
+            FeedbackResponse feedbackResponse = FeedbackResponse.builder()
+                    .cliente(feedbackAtualizado.getCliente())
+                    .dentista(feedbackAtualizado.getDentista())
+                    .clinica(feedbackAtualizado.getClinica())
+                    .avaliacao(feedbackAtualizado.getAvaliacao())
+                    .comentario(feedbackAtualizado.getComentario())
+                    .build();
+
+            Link link = linkTo(methodOn(FeedbackController.class).buscarPorId(id)).withSelfRel();
+            feedbackResponse.add(link);
+
             return ResponseEntity.ok(feedbackAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback com ID " + id + " não encontrado.");

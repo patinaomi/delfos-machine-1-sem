@@ -15,7 +15,6 @@ public class ConsultaUpdateRequest extends RepresentationModel<ConsultaUpdateReq
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataConsulta;
 
-    @Size(max = 1, message = "O status da consulta deve ter no máximo 1 caractere")
     private Character statusConsulta;
 
     @Size(max = 250, message = "As observações devem ter no máximo 250 caracteres")

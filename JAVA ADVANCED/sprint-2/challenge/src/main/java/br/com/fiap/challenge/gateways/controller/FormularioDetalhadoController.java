@@ -13,12 +13,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/formularios")
@@ -84,6 +90,9 @@ public class FormularioDetalhadoController {
                     .preferenciaDeContato(formularioSalvo.getPreferenciaDeContato())
                     .build();
 
+            Link link = linkTo(FormularioDetalhadoController.class).slash("formularios").slash(formularioSalvo.getIdFormulario()).withSelfRel();
+            formularioResponse.add(link);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(formularioResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar o formulário: " + e.getMessage());
@@ -98,6 +107,10 @@ public class FormularioDetalhadoController {
             if (formularios.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum formulário encontrado.");
             }
+
+            Link selfLink = linkTo(methodOn(FormularioDetalhadoController.class).buscarTodos()).withSelfRel();
+            CollectionModel<List<FormularioDetalhado>> result = CollectionModel.of(Collections.singleton(formularios), selfLink);
+
             return ResponseEntity.ok(formularios);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar formulários: " + e.getMessage());
@@ -109,6 +122,29 @@ public class FormularioDetalhadoController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             FormularioDetalhado formulario = formularioDetalhadoService.buscarPorId(id);
+            FormularioDetalhadoResponse formularioDetalhadoResponse = FormularioDetalhadoResponse.builder()
+                    .cliente(formulario.getCliente())
+                    .estadoCivil(formulario.getEstadoCivil())
+                    .historicoFamiliar(formulario.getHistoricoFamiliar())
+                    .profissao(formulario.getProfissao())
+                    .rendaMensal(formulario.getRendaMensal())
+                    .historicoMedico(formulario.getHistoricoMedico())
+                    .alergia(formulario.getAlergia())
+                    .condicaoPreexistente(formulario.getCondicaoPreexistente())
+                    .usoMedicamento(formulario.getUsoMedicamento())
+                    .familiarComDoencasDentarias(formulario.getFamiliarComDoencasDentarias())
+                    .participacaoEmProgramasPreventivos(formulario.getParticipacaoEmProgramasPreventivos())
+                    .contatoEmergencial(formulario.getContatoEmergencial())
+                    .pesquisaSatisfacao(formulario.getPesquisaSatisfacao())
+                    .dataUltimaAtualizacao(formulario.getDataUltimaAtualizacao())
+                    .frequenciaConsultaPeriodica(formulario.getFrequenciaConsultaPeriodica())
+                    .sinalizacaoDeRisco(formulario.getSinalizacaoDeRisco())
+                    .historicoDeViagem(formulario.getHistoricoDeViagem())
+                    .historicoDeMudancasDeEndereco(formulario.getHistoricoDeMudancasDeEndereco())
+                    .preferenciaDeContato(formulario.getPreferenciaDeContato())
+                    .build();
+
+            formularioDetalhadoResponse.add(linkTo(methodOn(FormularioDetalhadoController.class).buscarPorId(id)).withSelfRel());
             return ResponseEntity.ok(formulario);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Formulário com ID " + id + " não encontrado.");
@@ -144,6 +180,32 @@ public class FormularioDetalhadoController {
                     .build();
 
             FormularioDetalhado formularioAtualizado = formularioDetalhadoService.atualizar(id, formulario);
+
+            FormularioDetalhadoResponse formularioResponse = FormularioDetalhadoResponse.builder()
+                    .cliente(formularioAtualizado.getCliente())
+                    .estadoCivil(formularioAtualizado.getEstadoCivil())
+                    .historicoFamiliar(formularioAtualizado.getHistoricoFamiliar())
+                    .profissao(formularioAtualizado.getProfissao())
+                    .rendaMensal(formularioAtualizado.getRendaMensal())
+                    .historicoMedico(formularioAtualizado.getHistoricoMedico())
+                    .alergia(formularioAtualizado.getAlergia())
+                    .condicaoPreexistente(formularioAtualizado.getCondicaoPreexistente())
+                    .usoMedicamento(formularioAtualizado.getUsoMedicamento())
+                    .familiarComDoencasDentarias(formularioAtualizado.getFamiliarComDoencasDentarias())
+                    .participacaoEmProgramasPreventivos(formularioAtualizado.getParticipacaoEmProgramasPreventivos())
+                    .contatoEmergencial(formularioAtualizado.getContatoEmergencial())
+                    .pesquisaSatisfacao(formularioAtualizado.getPesquisaSatisfacao())
+                    .dataUltimaAtualizacao(formularioAtualizado.getDataUltimaAtualizacao())
+                    .frequenciaConsultaPeriodica(formularioAtualizado.getFrequenciaConsultaPeriodica())
+                    .sinalizacaoDeRisco(formularioAtualizado.getSinalizacaoDeRisco())
+                    .historicoDeViagem(formularioAtualizado.getHistoricoDeViagem())
+                    .historicoDeMudancasDeEndereco(formularioAtualizado.getHistoricoDeMudancasDeEndereco())
+                    .preferenciaDeContato(formularioAtualizado.getPreferenciaDeContato())
+                    .build();
+
+            Link link = linkTo(methodOn(FormularioDetalhadoController.class).buscarPorId(id)).withSelfRel();
+            formularioResponse.add(link);
+
             return ResponseEntity.ok(formularioAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Formulário com ID " + id + " não encontrado.");
@@ -186,9 +248,70 @@ public class FormularioDetalhadoController {
             if (formularioDetalhadoUpdateRequest.getHistoricoMedico() != null) {
                 formulario.setHistoricoMedico(formularioDetalhadoUpdateRequest.getHistoricoMedico());
             }
-            // Continue para todos os outros campos necessários...
+            if (formularioDetalhadoUpdateRequest.getAlergia() != null) {
+                formulario.setAlergia(formularioDetalhadoUpdateRequest.getAlergia());
+            }
+            if (formularioDetalhadoUpdateRequest.getCondicaoPreexistente() != null) {
+                formulario.setCondicaoPreexistente(formularioDetalhadoUpdateRequest.getCondicaoPreexistente());
+            }
+            if (formularioDetalhadoUpdateRequest.getUsoMedicamento() != null) {
+                formulario.setUsoMedicamento(formularioDetalhadoUpdateRequest.getUsoMedicamento());
+            }
+            if (formularioDetalhadoUpdateRequest.getFamiliarComDoencasDentarias() != null) {
+                formulario.setFamiliarComDoencasDentarias(formularioDetalhadoUpdateRequest.getFamiliarComDoencasDentarias());
+            }
+            if (formularioDetalhadoUpdateRequest.getParticipacaoEmProgramasPreventivos() != null) {
+                formulario.setParticipacaoEmProgramasPreventivos(formularioDetalhadoUpdateRequest.getParticipacaoEmProgramasPreventivos());
+            }
+            if (formularioDetalhadoUpdateRequest.getContatoEmergencial() != null) {
+                formulario.setContatoEmergencial(formularioDetalhadoUpdateRequest.getContatoEmergencial());
+            }
+            if (formularioDetalhadoUpdateRequest.getPesquisaSatisfacao() != null) {
+                formulario.setPesquisaSatisfacao(formularioDetalhadoUpdateRequest.getPesquisaSatisfacao());
+            }
+            if (formularioDetalhadoUpdateRequest.getFrequenciaConsultaPeriodica() != null) {
+                formulario.setFrequenciaConsultaPeriodica(formularioDetalhadoUpdateRequest.getFrequenciaConsultaPeriodica());
+            }
+            if (formularioDetalhadoUpdateRequest.getSinalizacaoDeRisco() != null) {
+                formulario.setSinalizacaoDeRisco(formularioDetalhadoUpdateRequest.getSinalizacaoDeRisco());
+            }
+            if (formularioDetalhadoUpdateRequest.getHistoricoDeViagem() != null) {
+                formulario.setHistoricoDeViagem(formularioDetalhadoUpdateRequest.getHistoricoDeViagem());
+            }
+            if (formularioDetalhadoUpdateRequest.getHistoricoDeMudancasDeEndereco() != null) {
+                formulario.setHistoricoDeMudancasDeEndereco(formularioDetalhadoUpdateRequest.getHistoricoDeMudancasDeEndereco());
+            }
+            if (formularioDetalhadoUpdateRequest.getPreferenciaDeContato() != null) {
+                formulario.setPreferenciaDeContato(formularioDetalhadoUpdateRequest.getPreferenciaDeContato());
+            }
 
             FormularioDetalhado formularioAtualizado = formularioDetalhadoService.atualizar(id, formulario);
+
+            FormularioDetalhadoResponse formularioResponse = FormularioDetalhadoResponse.builder()
+                    .cliente(formularioAtualizado.getCliente())
+                    .estadoCivil(formularioAtualizado.getEstadoCivil())
+                    .historicoFamiliar(formularioAtualizado.getHistoricoFamiliar())
+                    .profissao(formularioAtualizado.getProfissao())
+                    .rendaMensal(formularioAtualizado.getRendaMensal())
+                    .historicoMedico(formularioAtualizado.getHistoricoMedico())
+                    .alergia(formularioAtualizado.getAlergia())
+                    .condicaoPreexistente(formularioAtualizado.getCondicaoPreexistente())
+                    .usoMedicamento(formularioAtualizado.getUsoMedicamento())
+                    .familiarComDoencasDentarias(formularioAtualizado.getFamiliarComDoencasDentarias())
+                    .participacaoEmProgramasPreventivos(formularioAtualizado.getParticipacaoEmProgramasPreventivos())
+                    .contatoEmergencial(formularioAtualizado.getContatoEmergencial())
+                    .pesquisaSatisfacao(formularioAtualizado.getPesquisaSatisfacao())
+                    .dataUltimaAtualizacao(formularioAtualizado.getDataUltimaAtualizacao())
+                    .frequenciaConsultaPeriodica(formularioAtualizado.getFrequenciaConsultaPeriodica())
+                    .sinalizacaoDeRisco(formularioAtualizado.getSinalizacaoDeRisco())
+                    .historicoDeViagem(formularioAtualizado.getHistoricoDeViagem())
+                    .historicoDeMudancasDeEndereco(formularioAtualizado.getHistoricoDeMudancasDeEndereco())
+                    .preferenciaDeContato(formularioAtualizado.getPreferenciaDeContato())
+                    .build();
+
+            Link link = linkTo(methodOn(FormularioDetalhadoController.class).buscarPorId(id)).withSelfRel();
+            formularioResponse.add(link);
+
             return ResponseEntity.ok(formularioAtualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Formulário com ID " + id + " não encontrado.");

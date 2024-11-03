@@ -4,10 +4,11 @@ import br.com.fiap.challenge.domains.Clinica;
 import br.com.fiap.challenge.domains.Especialidade;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 @Builder
 @Data
-public class DentistaResponse {
+public class DentistaResponse extends RepresentationModel<DentistaResponse> {
 
         String nome;
         String sobrenome;

@@ -2,6 +2,7 @@ package br.com.fiap.challenge.gateways.request;
 
 import br.com.fiap.challenge.domains.Cliente;
 import br.com.fiap.challenge.domains.EstadoCivil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -18,39 +19,50 @@ public class FormularioDetalhadoRequest extends RepresentationModel<FormularioDe
     @NotNull(message = "Estado civil não pode ser nulo")
     private EstadoCivil estadoCivil;
 
-    @Size(message = "O histórico familiar deve ter no máximo 250 caracteres")
+    @Size(max = 250, message = "O histórico familiar deve ter no máximo 250 caracteres")
     private String historicoFamiliar;
 
-    @Size(message = "A profissão deve ter no máximo 100 caracteres")
+    @Size(max = 100, message = "A profissão deve ter no máximo 100 caracteres")
     private String profissao;
 
     private Double rendaMensal;
 
-    @Size(message = "O histórico médico deve ter no máximo 250 caracteres")
+    @Size(max = 250, message = "O histórico médico deve ter no máximo 250 caracteres")
     private String historicoMedico;
 
-    @Size(message = "Alergia deve ter no máximo 100 caracteres")
+    @Size(max = 250, message = "Alergia deve ter no máximo 250 caracteres")
     private String alergia;
 
-    @Size(message = "A medicação deve ter no máximo 100 caracteres")
+    @Size(max = 250, message = "A medicação deve ter no máximo 250 caracteres")
     private String condicaoPreexistente;
 
-    @Size(message = "O uso de medicamento deve ter no máximo 100 caracteres")
+    @Size(max = 250, message = "O uso de medicamento deve ter no máximo 250 caracteres")
     private String usoMedicamento;
 
-    @Size(message = "O histórico odontológico deve ter no máximo 250 caracteres")
+    @Size(max = 255, message = "O histórico odontológico deve ter no máximo 255 caracteres")
     private String familiarComDoencasDentarias;
 
-    @Size(message = "Participação em programas preventivos deve ter no máximo 1 caractere")
     private Character participacaoEmProgramasPreventivos;
 
-    @Size(message = "O contato emergencial deve ter no máximo 15 caracteres")
+    @Size(max = 15, message = "O contato emergencial deve ter no máximo 15 caracteres")
     private String contatoEmergencial;
+
     private Character pesquisaSatisfacao;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataUltimaAtualizacao;
+
     private Character frequenciaConsultaPeriodica;
+
+    @Size(max = 250, message = "A sinalização de risco deve ter no máximo 250 caracteres")
     private String sinalizacaoDeRisco;
+
+    @Size(max = 250, message = "O histórico de viagem deve ter no máximo 250 caracteres")
     private String historicoDeViagem;
+
+    @Size(max = 250, message = "O histórico de mudanças de endereço deve ter no máximo 250 caracteres")
     private String historicoDeMudancasDeEndereco;
+
+    @Size(max = 250, message = "A preferência de contato deve ter no máximo 250 caracteres")
     private String preferenciaDeContato;
 }

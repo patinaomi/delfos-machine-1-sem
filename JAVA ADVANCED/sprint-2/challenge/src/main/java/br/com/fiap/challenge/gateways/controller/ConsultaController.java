@@ -1,5 +1,6 @@
 package br.com.fiap.challenge.gateways.controller;
 
+import br.com.fiap.challenge.domains.Cliente;
 import br.com.fiap.challenge.domains.Consulta;
 import br.com.fiap.challenge.gateways.request.ConsultaRequest;
 import br.com.fiap.challenge.gateways.request.ConsultaUpdateRequest;
@@ -12,12 +13,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/consultas")
@@ -66,8 +74,11 @@ public class ConsultaController {
                     .tratamentoRecomendado(consultaSalva.getTratamentoRecomendado())
                     .custo(consultaSalva.getCusto())
                     .prescricao(consultaSalva.getPrescricao())
-                    //.dataRetorno(consultaSalva.getDataRetorno())
+                    .dataRetorn(consultaSalva.getDataRetorno())
                     .build();
+
+            Link link = linkTo(ConsultaController.class).slash(consulta.getIdConsulta()).withSelfRel();
+            consultaResponse.add(link);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(consultaResponse);
         } catch (Exception e) {
@@ -83,6 +94,10 @@ public class ConsultaController {
             if (consultas.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhuma consulta encontrada.");
             }
+
+            Link selfLink = linkTo(methodOn(ConsultaController.class).buscarTodas()).withSelfRel();
+            CollectionModel<List<Consulta>> result = CollectionModel.of(Collections.singleton(consultas), selfLink);
+
             return ResponseEntity.ok(consultas);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar consultas: " + e.getMessage());
@@ -94,6 +109,22 @@ public class ConsultaController {
     public ResponseEntity<?> buscarPorId(@PathVariable String id) {
         try {
             Consulta consulta = consultaService.buscarPorId(id);
+            ConsultaResponse consultaResponse= ConsultaResponse.builder()
+                    .cliente(consulta.getCliente())
+                    .clinica(consulta.getClinica())
+                    .dentista(consulta.getDentista())
+                    .tipoServico(consulta.getTipoServico())
+                    .dataConsulta(consulta.getDataConsulta())
+                    .statusConsulta(consulta.getStatusConsulta())
+                    .observacoes(consulta.getObservacoes())
+                    .sintomas(consulta.getSintomas())
+                    .tratamentoRecomendado(consulta.getTratamentoRecomendado())
+                    .custo(consulta.getCusto())
+                    .prescricao(consulta.getPrescricao())
+                    .dataRetorn(consulta.getDataRetorno())
+                    .build();
+
+            consultaResponse.add(linkTo(methodOn(ConsultaController.class).buscarPorId(id)).withSelfRel());
             return ResponseEntity.ok(consulta);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta com ID " + id + " não encontrada.");
@@ -122,6 +153,25 @@ public class ConsultaController {
                     .build();
 
             Consulta consultaAtualizada = consultaService.atualizar(id, consulta);
+
+            ConsultaResponse consultaResponse = ConsultaResponse.builder()
+                    .cliente(consultaAtualizada.getCliente())
+                    .clinica(consultaAtualizada.getClinica())
+                    .dentista(consultaAtualizada.getDentista())
+                    .tipoServico(consultaAtualizada.getTipoServico())
+                    .dataConsulta(consultaAtualizada.getDataConsulta())
+                    .statusConsulta(consultaAtualizada.getStatusConsulta())
+                    .observacoes(consultaAtualizada.getObservacoes())
+                    .sintomas(consultaAtualizada.getSintomas())
+                    .tratamentoRecomendado(consultaAtualizada.getTratamentoRecomendado())
+                    .custo(consultaAtualizada.getCusto())
+                    .prescricao(consultaAtualizada.getPrescricao())
+                    .dataRetorn(consultaAtualizada.getDataRetorno())
+                    .build();
+
+            Link link = linkTo(methodOn(ConsultaController.class).atualizar(id, consultaRequest)).withSelfRel();
+            consultaResponse.add(link);
+
             return ResponseEntity.ok(consultaAtualizada);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta com ID " + id + " não encontrada.");
@@ -184,6 +234,25 @@ public class ConsultaController {
             }
 
             Consulta consultaAtualizada = consultaService.atualizar(id, consulta);
+
+            ConsultaResponse consultaResponse = ConsultaResponse.builder()
+                    .cliente(consultaAtualizada.getCliente())
+                    .clinica(consultaAtualizada.getClinica())
+                    .dentista(consultaAtualizada.getDentista())
+                    .tipoServico(consultaAtualizada.getTipoServico())
+                    .dataConsulta(consultaAtualizada.getDataConsulta())
+                    .statusConsulta(consultaAtualizada.getStatusConsulta())
+                    .observacoes(consultaAtualizada.getObservacoes())
+                    .sintomas(consultaAtualizada.getSintomas())
+                    .tratamentoRecomendado(consultaAtualizada.getTratamentoRecomendado())
+                    .custo(consultaAtualizada.getCusto())
+                    .prescricao(consultaAtualizada.getPrescricao())
+                    .dataRetorn(consultaAtualizada.getDataRetorno())
+                    .build();
+
+            Link link = linkTo(methodOn(ConsultaController.class).atualizarParcialmente(id, consultaUpdateRequest)).withSelfRel();
+            consultaResponse.add(link);
+
             return ResponseEntity.ok(consultaAtualizada);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta com ID " + id + " não encontrada.");
