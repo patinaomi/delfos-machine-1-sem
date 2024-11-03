@@ -594,6 +594,8 @@ BEGIN
     RETURN TRUE; -- Data de nascimento válida
 END;
 
+
+
 -- Procedimento para solicitar Data de Nascimento e Validar os dados
 
 CREATE OR REPLACE PROCEDURE solicitar_e_validar_data_nasc IS
@@ -819,9 +821,7 @@ END;
 
 select * from Clinica;
 EXEC inserir_clinica('Clínica Saude e Sorriso', 'Rua das Flores, 123', '11987654321', 4, 150);
-select * from Clinica;
 EXEC atualizar_clinica (1, 'Nome Atualizado da Clinica', 'Endereço Atualizado', '987654321', 5, 200);
-select * from Clinica;
 EXEC deletar_clinica(11);
 
 -- Procedure para INSERT na Tabela Especialidade
@@ -841,6 +841,8 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Erro ao inserir especialidade: ' || SQLERRM);
 END;
 
+
+
 -- Procedure para UPDATE na Tabela Especialidade
 
 CREATE OR REPLACE PROCEDURE atualizar_especialidade(
@@ -859,6 +861,8 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Erro ao atualizar especialidade: ' || SQLERRM);
 END;
 
+
+
 -- Procedure para DELETE na Tabela Especialidade
 
 CREATE OR REPLACE PROCEDURE deletar_especialidade(
@@ -874,6 +878,8 @@ EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Erro ao deletar especialidade: ' || SQLERRM);
 END;
+
+
 
 -- Teste
 select * from especialidade;
@@ -904,6 +910,8 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Erro ao inserir dentista: ' || SQLERRM);
 END;
 
+
+
 -- Procedure para UPDATE na Tabela Dentista
 
 CREATE OR REPLACE PROCEDURE atualizar_dentista(
@@ -931,6 +939,8 @@ EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Erro ao atualizar dentista: ' || SQLERRM);
 END;
+
+
 
 -- Procedure para DELETE na Tabela Dentista
 
@@ -985,6 +995,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Erro ao inserir feedback: ' || SQLERRM);
 END;
 
+
 -- Procedure para UPDATE na Tabela Feedback
 
 CREATE OR REPLACE PROCEDURE atualizar_feedback(
@@ -1011,6 +1022,8 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Erro ao atualizar feedback: ' || SQLERRM);
 END;
 
+
+
 -- Procedure para DELETE na Tabela Feedback
 
 CREATE OR REPLACE PROCEDURE deletar_feedback(
@@ -1026,6 +1039,7 @@ EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Erro ao deletar feedback: ' || SQLERRM);
 END;
+
 
 -- Teste Feedback
 
