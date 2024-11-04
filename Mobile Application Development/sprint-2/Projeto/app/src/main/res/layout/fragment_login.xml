@@ -36,7 +36,7 @@
         android:background="@drawable/edit_text_background"
         android:fontFamily="@font/noto_sans"
         android:hint="@string/hint_email"
-        android:inputType="text"
+        android:inputType="text|textEmailAddress"
         android:paddingStart="16dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,60 +1,71 @@
 package br.com.fiap.challenge
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import br.com.fiap.challenge.models.UpdatePasswordRequest
+import br.com.fiap.challenge.service.RetrofitInstance
 import br.com.fiap.mad.crafters.R
+import br.com.fiap.mad.crafters.databinding.FragmentResetPasswordBinding
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ResetPasswordFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ResetPasswordFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentResetPasswordBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reset_password, container, false)
+    ): View {
+        _binding = FragmentResetPasswordBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ResetPasswordFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ResetPasswordFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btEnviar.setOnClickListener {
+            val novaSenha = binding.etNovaSenha.text.toString().trim()
+            val confirmeSenha = binding.etConfirmeSenha.text.toString().trim()
+
+            if (novaSenha.isEmpty() || confirmeSenha.isEmpty()) {
+                Toast.makeText(requireContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (novaSenha != confirmeSenha) {
+                Toast.makeText(requireContext(), "As senhas não coincidem", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val sharedPref = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val clienteId = sharedPref.getString("clienteId", "") ?: ""
+
+            lifecycleScope.launch {
+                try {
+                    val request = UpdatePasswordRequest(clienteId, novaSenha)
+                    val response = RetrofitInstance.api.updatePassword(request)
+
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.loginFragment) // Aquivai voltar pro login
+                    } else {
+                        Toast.makeText(requireContext(), "Erro ao atualizar a senha", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
