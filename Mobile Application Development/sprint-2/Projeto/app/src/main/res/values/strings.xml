@@ -27,4 +27,9 @@
     <string name="digite_sua_data_de_nascimento">Digite sua data de nascimento</string>
     <string name="validar">Validar</string>
     <string name="digite_seu_e_mail">Digite seu e-mail</string>
+    <string name="nova_senha">Nova Senha</string>
+    <string name="confirme_senha">Confirme sua senha\n</string>
+    <string name="button_enviar">Enviar</string>
+    <string name="instrucoes_senha"><![CDATA[Para sua segurança, por favor, crie uma nova senha seguindo as diretrizes abaixo:\n\nDeve conter no mínimo 8 caracteres\nPelo menos uma letra maiúscula (A-Z)\nPelo menos uma letra minúscula (a-z)\nPelo menos um número (0-9)\nPelo menos um caractere especial (!@#$%^&*)]]></string>
+    <string name="logo">logo</string>
 </resources>
