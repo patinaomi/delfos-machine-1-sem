@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import br.com.fiap.challenge.models.LoginRequest
+import br.com.fiap.challenge.service.RetrofitInstance
 import br.com.fiap.mad.crafters.R
 import br.com.fiap.mad.crafters.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -42,10 +45,29 @@ class LoginFragment : Fragment() {
         }
 
         binding.btAcessar.setOnClickListener {
-            val cpf = binding.etLogin.text.toString()
-            val senha = binding.etSenha.text.toString()
-            validarLogin(cpf, senha, binding.tvErroLogin)
+            val email = binding.etLogin.text.toString().trim()
+            val senha = binding.etSenha.text.toString().trim()
+
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitInstance.api.login(LoginRequest(email, senha))
+                    if (response.isSuccessful) {
+                        // Login bem-sucedido, navegue para a próxima tela
+                        findNavController().navigate(R.id.homeFragment)
+                    } else {
+                        // Exibe mensagem de erro
+                        val errorBody = response.errorBody()?.string()
+                        binding.tvErroLogin.text = "Erro no login: $errorBody"
+                        binding.tvErroLogin.visibility = View.VISIBLE
+                    }
+                } catch (e: Exception) {
+                    // Tratar exceções de rede ou conversão de JSON
+                    binding.tvErroLogin.text = "Erro na comunicação: ${e.message}"
+                    binding.tvErroLogin.visibility = View.VISIBLE
+                }
+            }
         }
+
 
         binding.btComprar.setOnClickListener {
             val url = "https://www.odontoprev.com.br"
@@ -54,27 +76,33 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun validarLogin(cpf: String, senha: String, erroLoginTextView: TextView) {
-        if (cpf.isBlank() || senha.isBlank()) {
-            // Caso 1 - CPF ou senha não preenchidos
-            erroLoginTextView.text = "CPF e senha são obrigatórios"
-            erroLoginTextView.visibility = View.VISIBLE
-        } else if (cpf == "123456789" && senha == "123456") {
-            // Caso 2 - Login efetuado com sucesso
-            AlertDialog.Builder(requireContext())
-                .setTitle("Login Efetuado")
-                .setMessage("Login efetuado com sucesso!")
-                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                .show()
-            erroLoginTextView.visibility = View.GONE
-        } else if (cpf == "123456789" && senha != "123456") {
-            // Caso 3 - CPF correto, mas senha incorreta
-            erroLoginTextView.text = "Senha inválida"
+    private fun realizarLogin(email: String, senha: String, erroLoginTextView: TextView) {
+        if (email.isBlank() || senha.isBlank()) {
+            erroLoginTextView.text = "E-mail e senha são obrigatórios"
             erroLoginTextView.visibility = View.VISIBLE
         } else {
-            // Caso 4 - CPF incorreto
-            erroLoginTextView.text = "CPF ou Carteirinha não está cadastrado no banco"
-            erroLoginTextView.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitInstance.api.login(LoginRequest(email, senha))
+                    if (response.isSuccessful) {
+                        val loginResponse = response.body()
+                        if (loginResponse != null && loginResponse.message == "Login bem-sucedido") {
+                            // Login bem-sucedido
+                            findNavController().navigate(R.id.homeFragment)
+                        } else {
+                            erroLoginTextView.text = "Credenciais inválidas"
+                            erroLoginTextView.visibility = View.VISIBLE
+                        }
+                    } else {
+                        erroLoginTextView.text = "Erro no servidor: ${response.code()}"
+                        erroLoginTextView.visibility = View.VISIBLE
+                    }
+                } catch (e: Exception) {
+                    // Erro de conexão ou outra exceção
+                    erroLoginTextView.text = "Falha no login: ${e.message}"
+                    erroLoginTextView.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
