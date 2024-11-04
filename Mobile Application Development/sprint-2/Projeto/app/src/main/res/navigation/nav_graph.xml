@@ -29,4 +29,9 @@
         android:name="br.com.fiap.challenge.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="br.com.fiap.challenge.ResetPasswordFragment"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" />
 </navigation>

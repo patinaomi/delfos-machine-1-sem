@@ -24,4 +24,7 @@
     <string name="erro_no_login">Erro no login: %1$s</string>
     <string name="erro_na_comunica_o">Erro na comunicação: %1$s</string>
     <string name="e_mail_e_senha_obrigatorios">E-mail e senha são obrigatórios</string>
+    <string name="digite_sua_data_de_nascimento">Digite sua data de nascimento</string>
+    <string name="validar">Validar</string>
+    <string name="digite_seu_e_mail">Digite seu e-mail</string>
 </resources>
