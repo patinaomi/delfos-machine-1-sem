@@ -21,4 +21,7 @@
     <string name="texto_banner">Ainda não é cliente?\nClique abaixo para\nadquirir um plano</string>
     <string name="button_comprar">Quero Comprar</string>
     <string name="text_erro_login">Não foi possível fazer login</string>
+    <string name="erro_no_login">Erro no login: %1$s</string>
+    <string name="erro_na_comunica_o">Erro na comunicação: %1$s</string>
+    <string name="e_mail_e_senha_obrigatorios">E-mail e senha são obrigatórios</string>
 </resources>

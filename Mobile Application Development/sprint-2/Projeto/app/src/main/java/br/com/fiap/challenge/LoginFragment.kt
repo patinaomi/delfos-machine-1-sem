@@ -1,5 +1,6 @@
 package br.com.fiap.challenge
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -53,16 +54,26 @@ class LoginFragment : Fragment() {
                     val response = RetrofitInstance.api.login(LoginRequest(email, senha))
                     if (response.isSuccessful) {
                         // Login bem-sucedido, navegue para a próxima tela
+                        val loginResponse = response.body()
+                        val clienteId = loginResponse?.id
+
+                        val sharedPref = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                        with(sharedPref.edit()) {
+                            putString("clienteId", clienteId)
+                            apply()
+                        }
+
                         findNavController().navigate(R.id.homeFragment)
                     } else {
+
                         // Exibe mensagem de erro
                         val errorBody = response.errorBody()?.string()
-                        binding.tvErroLogin.text = "Erro no login: $errorBody"
+                        binding.tvErroLogin.text = getString(R.string.erro_no_login, errorBody)
                         binding.tvErroLogin.visibility = View.VISIBLE
                     }
                 } catch (e: Exception) {
                     // Tratar exceções de rede ou conversão de JSON
-                    binding.tvErroLogin.text = "Erro na comunicação: ${e.message}"
+                    binding.tvErroLogin.text = getString(R.string.erro_na_comunica_o, e.message)
                     binding.tvErroLogin.visibility = View.VISIBLE
                 }
             }
@@ -78,7 +89,7 @@ class LoginFragment : Fragment() {
 
     private fun realizarLogin(email: String, senha: String, erroLoginTextView: TextView) {
         if (email.isBlank() || senha.isBlank()) {
-            erroLoginTextView.text = "E-mail e senha são obrigatórios"
+            erroLoginTextView.text = getString(R.string.e_mail_e_senha_obrigatorios)
             erroLoginTextView.visibility = View.VISIBLE
         } else {
             lifecycleScope.launch {
