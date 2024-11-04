@@ -1,4 +1,4 @@
-package br.com.projeto
+package br.com.fiap.mad.crafters
 
 import org.junit.Test
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1016466799326",
+    "project_id": "tdspr-crafters",
+    "storage_bucket": "tdspr-crafters.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016466799326:android:5cf7f9e633840a2b6b204f",
+        "android_client_info": {
+          "package_name": "br.com.fiap.mad.crafters"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiioCNOYRMHpnwzkx3cPYPtsx4OEknx0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
