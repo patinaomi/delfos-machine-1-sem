@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#003EA6"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="31dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_to" />
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_back"
+        app:srcCompat="@drawable/logo_odontoprev_branco" />
+
+    <EditText
+        android:id="@+id/et_login"
+        android:layout_width="298dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/edit_text_background"
+        android:fontFamily="@font/noto_sans"
+        android:hint="@string/hint_cpf"
+        android:inputType="number"
+        android:paddingStart="16dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_logo" />
+
+    <EditText
+        android:id="@+id/et_senha"
+        android:layout_width="298dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/edit_text_background"
+        android:fontFamily="@font/noto_sans"
+        android:hint="@string/hint_senha"
+        android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_login" />
+
+    <CheckBox
+        android:id="@+id/check_lembrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="12dp"
+        android:buttonTint="@android:color/white"
+        android:text="@string/text_lembrar"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_senha" />
+
+    <TextView
+        android:id="@+id/tv_esqueci_senha"
+        android:layout_width="201dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:text="@string/text_esqueci_senha"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/check_lembrar"
+        app:layout_constraintTop_toBottomOf="@+id/et_senha" />
+
+    <Button
+        android:id="@+id/bt_acessar"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/noto_sans_medium"
+        android:text="@string/button_acessar"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_esqueci_senha" />
+
+    <TextView
+        android:id="@+id/tv_erro_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/text_erro_login"
+        android:textColor="#FF6052"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_acessar" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_acessar"
+        app:srcCompat="@drawable/banner" />
+
+    <TextView
+        android:id="@+id/et_texto_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/noto_sans_medium"
+        android:text="@string/texto_banner"
+        android:textColor="#003EA6"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_acessar" />
+
+    <Button
+        android:id="@+id/bt_comprar"
+        android:layout_width="215dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FF6052"
+        android:text="@string/button_comprar"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_texto_banner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

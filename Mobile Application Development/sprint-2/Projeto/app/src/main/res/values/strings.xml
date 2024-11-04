@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Projeto</string>
+    <string name="hint_cpf">CPF ou Carteirinha</string>
+    <string name="hint_senha">Senha</string>
+    <string name="text_lembrar">Lembre-se de mim</string>
+    <string name="text_esqueci_senha">Esqueci minha senha</string>
+    <string name="button_acessar">ACESSAR</string>
+    <string name="text_erro_login">Mensagem de Erro</string>
+    <string name="texto_banner">Ainda não é cliente?\nClique abaixo para\nadquirir um plano</string>
+    <string name="button_comprar">COMPRAR</string>
+</resources>
