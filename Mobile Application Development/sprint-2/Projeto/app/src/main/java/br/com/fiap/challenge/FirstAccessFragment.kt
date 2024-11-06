@@ -60,25 +60,30 @@ class FirstAccessFragment : Fragment() {
             try {
                 val response = RetrofitInstance.api.validateEmail(ValidateEmailRequest(email))
 
-                if(response.isSuccessful && response.body() != null) {
-                    val emailExists = response.body()!!.emailExists
-                    println(emailExists)
-
-                    if(emailExists) {
+                if (response.isSuccessful && response.body() != null) {
+                    val responseBody = response.body()!!
+                    // Verifica se o e-mail já existe
+                    if (responseBody.emailExists == true) {
                         Toast.makeText(requireContext(), "E-mail já cadastrado", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.loginFragment)
                     } else {
+                        Toast.makeText(requireContext(), "E-mail não cadastrado, prosseguindo com o registro", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.registerFragment)
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Erro ao verificar e-mail", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Erro ao verificar e-mail. Tente novamente.", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Erro ao verificar e-mail", Toast.LENGTH_SHORT).show()
+                e.printStackTrace() // Log para depuração
             }
         }
-
     }
+
+
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

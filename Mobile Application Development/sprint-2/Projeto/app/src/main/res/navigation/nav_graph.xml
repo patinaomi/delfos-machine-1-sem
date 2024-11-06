@@ -10,33 +10,47 @@
         android:name="br.com.fiap.challenge.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="br.com.fiap.challenge.SignUpFragment"
-        android:label="SignUpFragment" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="br.com.fiap.challenge.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="br.com.fiap.challenge.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+
     <fragment
         android:id="@+id/resetPasswordFragment"
         android:name="br.com.fiap.challenge.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" />
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="br.com.fiap.challenge.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
+
     <fragment
         android:id="@+id/firstAccessFragment"
         android:name="br.com.fiap.challenge.FirstAccessFragment"
         android:label="fragment_first_access"
         tools:layout="@layout/fragment_first_access" />
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="br.com.fiap.challenge.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/registerPasswordFragment"
+        android:name="br.com.fiap.challenge.RegisterPasswordFragment"
+        android:label="fragment_register_password"
+        tools:layout="@layout/fragment_register_password" />
+
 </navigation>

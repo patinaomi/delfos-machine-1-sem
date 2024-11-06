@@ -47,4 +47,14 @@
     <string name="erro_no_servidor">Erro no servidor</string>
     <string name="credenciais_invalidas">Credenciais inválidas</string>
     <string name="pagina_implementada">Esta página será implementada\nnas próximas Sprints</string>
+    <string name="iniciar_cadastro">Vamos iniciar o seu cadastro?</string>
+    <string name="nome">Nome</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="hint_nome">Ex: João</string>
+    <string name="hint_sobrenome">Ex: Silva</string>
+    <string name="hint_data">Ex: (YYYY-MM-DD)</string>
+    <string name="data">Data de Nascimento</string>
+    <string name="hint_telefone">Ex: (11) 99999–9999</string>
+    <string name="continuar">Continuar</string>
+    <string name="telefone">Telefone</string>
 </resources>
