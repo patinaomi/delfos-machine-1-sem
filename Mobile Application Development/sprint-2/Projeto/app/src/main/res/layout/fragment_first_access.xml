@@ -1,0 +1,136 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="br.com.fiap.challenge.FirstAccessFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Botão de Voltar -->
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="31dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back_to_azul" />
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="22dp"
+            app:srcCompat="@drawable/logo_odontoprev_azul"
+            android:contentDescription="@string/logo" />
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:text="@string/primeiro_acesso"
+            android:textColor="#003EA6"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Campo E-mail -->
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/digite_seu_email"
+            android:background="@drawable/edit_text_background"
+            android:paddingStart="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:inputType="text"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Botão Cadastrar -->
+        <Button
+            android:id="@+id/btn_cadastrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastrar"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:backgroundTint="#FF6052"
+            android:background="@drawable/button_background"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Card de Informação do Plano -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_background"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Seção para Texto e Imagem lado a lado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <!-- Texto do Card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="149dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/noto_sans"
+                        android:text="@string/cuide_da_saude"
+                        android:textColor="#003EA6"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+
+                <!-- Imagem do Card -->
+                <ImageView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_banner" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:fontFamily="@font/noto_sans"
+                android:text="@string/cuide_da_saude_desc"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <!-- Botão Simule seu Plano -->
+            <Button
+                android:id="@+id/btn_simule_plano"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:backgroundTint="#0066ff"
+                android:text="@string/simule_seu_plano"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

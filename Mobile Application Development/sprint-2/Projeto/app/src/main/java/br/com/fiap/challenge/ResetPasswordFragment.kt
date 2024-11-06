@@ -38,6 +38,11 @@ class ResetPasswordFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            if (!isPasswordValid(novaSenha)) {
+                Toast.makeText(requireContext(), "A senha não atende aos requisitos", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             if (novaSenha != confirmeSenha) {
                 Toast.makeText(requireContext(), "As senhas não coincidem", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -53,7 +58,7 @@ class ResetPasswordFragment : Fragment() {
 
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.loginFragment) // Aquivai voltar pro login
+                        findNavController().navigate(R.id.loginFragment) //volta para o login
                     } else {
                         Toast.makeText(requireContext(), "Erro ao atualizar a senha", Toast.LENGTH_SHORT).show()
                     }
@@ -63,6 +68,15 @@ class ResetPasswordFragment : Fragment() {
             }
         }
     }
+
+    /**
+     * Valida se a senha atende aos requisitos de segurança.
+     */
+    private fun isPasswordValid(password: String): Boolean {
+        val passwordPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#\$%^&*])[A-Za-z\\d!@#\$%^&*]{8,}$"
+        return password.matches(passwordPattern.toRegex())
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,10 +1,12 @@
 package br.com.fiap.challenge.service
 
+import br.com.fiap.challenge.models.ValidateEmailResponse
 import br.com.fiap.challenge.models.LoginRequest
 import br.com.fiap.challenge.models.LoginResponse
 import br.com.fiap.challenge.models.MessageResponse
 import br.com.fiap.challenge.models.UpdatePasswordRequest
 import br.com.fiap.challenge.models.UserResponse
+import br.com.fiap.challenge.models.ValidateEmailRequest
 import br.com.fiap.challenge.models.ValidateUserRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -25,5 +27,8 @@ interface ApiService {
 
     @POST("auth/update-password")
     suspend fun updatePassword(@Body request: UpdatePasswordRequest): Response<MessageResponse>
+
+    @POST("auth/validate-email")
+    suspend fun validateEmail(@Body request: ValidateEmailRequest): Response<ValidateEmailResponse>
 
 }

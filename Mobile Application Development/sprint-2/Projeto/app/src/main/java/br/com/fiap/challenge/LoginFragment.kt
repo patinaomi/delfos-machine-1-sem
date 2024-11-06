@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.imgBack.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            findNavController().navigate(R.id.mainFragment)
         }
 
         binding.tvEsqueciSenha.setOnClickListener {
@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
                 try {
                     val response = RetrofitInstance.api.login(LoginRequest(email, senha))
                     if (response.isSuccessful) {
-                        // Login bem-sucedido, navegue para a próxima tela
+                        // Se o login dar certo, vai pra proxima tela
                         val loginResponse = response.body()
                         val clienteId = loginResponse?.id
 
@@ -68,12 +68,11 @@ class LoginFragment : Fragment() {
 
                         // Exibe mensagem de erro
                         val errorBody = response.errorBody()?.string()
-                        binding.tvErroLogin.text = getString(R.string.erro_no_login, errorBody)
+                        binding.tvErroLogin.text = getString(R.string.erro_no_login)
                         binding.tvErroLogin.visibility = View.VISIBLE
                     }
                 } catch (e: Exception) {
-                    // Tratar exceções de rede ou conversão de JSON
-                    binding.tvErroLogin.text = getString(R.string.erro_na_comunica_o, e.message)
+                    binding.tvErroLogin.text = getString(R.string.erro_na_comunicacao)
                     binding.tvErroLogin.visibility = View.VISIBLE
                 }
             }
@@ -98,19 +97,18 @@ class LoginFragment : Fragment() {
                     if (response.isSuccessful) {
                         val loginResponse = response.body()
                         if (loginResponse != null && loginResponse.message == "Login bem-sucedido") {
-                            // Login bem-sucedido
+                            // Login deu certo, ai vai pra home
                             findNavController().navigate(R.id.homeFragment)
                         } else {
-                            erroLoginTextView.text = "Credenciais inválidas"
+                            erroLoginTextView.text = getString(R.string.credenciais_invalidas)
                             erroLoginTextView.visibility = View.VISIBLE
                         }
                     } else {
-                        erroLoginTextView.text = "Erro no servidor: ${response.code()}"
+                        erroLoginTextView.text = getString(R.string.erro_no_servidor)
                         erroLoginTextView.visibility = View.VISIBLE
                     }
                 } catch (e: Exception) {
-                    // Erro de conexão ou outra exceção
-                    erroLoginTextView.text = "Falha no login: ${e.message}"
+                    erroLoginTextView.text = getString(R.string.falha_no_login)
                     erroLoginTextView.visibility = View.VISIBLE
                 }
             }

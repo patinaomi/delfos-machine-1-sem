@@ -5,37 +5,61 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.fiap.challenge.HomeFragment" >
+    tools:context="br.com.fiap.challenge.HomeFragment">
 
+    <!-- Botão de Voltar -->
     <ImageView
-        android:id="@+id/imageViewAvatar"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="31dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:srcCompat="@drawable/back_to_azul" />
+
+    <!-- Texto de Boas-vindas Centralizado -->
+
+    <!-- Logo Centralizado -->
+
+    <!-- Título Centralizado -->
 
     <TextView
         android:id="@+id/textViewWelcome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textSize="24sp"
-        tools:text="Olá Felipe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
-        app:layout_constraintTop_toTopOf="@+id/imageViewAvatar" />
-
-    <Button
-        android:id="@+id/buttonEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/edit_profile"
-        app:layout_constraintStart_toStartOf="@+id/textViewWelcome"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/noto_sans"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_logo"
+        tools:text="Bem-vindo ao aplicativo" />
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:contentDescription="@string/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_back"
+        app:srcCompat="@drawable/logo_odontoprev_azul" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/noto_sans"
+        android:text="@string/pagina_implementada"
+        android:textAlignment="center"
+        android:textColor="#003EA6"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

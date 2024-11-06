@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:buttonTint="@android:color/white"
         android:fontFamily="@font/noto_sans"
         android:text="@string/text_lembrar"
@@ -104,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:fontFamily="@font/noto_sans"
         android:text="@string/text_erro_login"
         android:textColor="#FF6052"
         android:visibility="gone"
@@ -119,6 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_acessar"
+        android:background="@drawable/button_background"
         app:srcCompat="@drawable/banner" />
 
     <TextView
@@ -146,6 +148,7 @@
         android:fontFamily="@font/noto_sans_medium"
         android:text="@string/button_comprar"
         android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_texto_banner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

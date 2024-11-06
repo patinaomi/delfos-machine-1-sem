@@ -21,10 +21,10 @@
     <string name="texto_banner">Ainda não é cliente?\nClique abaixo para\nadquirir um plano</string>
     <string name="button_comprar">Quero Comprar</string>
     <string name="text_erro_login">Não foi possível fazer login</string>
-    <string name="erro_no_login">Erro no login: %1$s</string>
-    <string name="erro_na_comunica_o">Erro na comunicação: %1$s</string>
+    <string name="erro_no_login">Erro no login</string>
+    <string name="erro_na_comunicacao">Erro na comunicação</string>
     <string name="e_mail_e_senha_obrigatorios">E-mail e senha são obrigatórios</string>
-    <string name="digite_sua_data_de_nascimento">Digite sua data de nascimento</string>
+    <string name="digite_sua_data_de_nascimento">Data de nascimento YYYY-MM-DD</string>
     <string name="validar">Validar</string>
     <string name="digite_seu_e_mail">Digite seu e-mail</string>
     <string name="nova_senha">Nova Senha</string>
@@ -35,4 +35,16 @@
     <string name="esqueci_minha_senha">Esqueci minha senha</string>
     <string name="texto_esqueci_minha_senha">Precisamos validar alguns dados, por favor\npreencha os campos abaixo:</string>
     <string name="button_rec_senha">Recuperar Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="nao_tem_acesso">Não tem acesso? Faça agora mesmo:</string>
+    <string name="primeiro_acesso">Primeiro Acesso</string>
+    <string name="digite_seu_email">Digite seu e-mail</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="cuide_da_saude">Cuide da saúde\nde quem você\nama.</string>
+    <string name="cuide_da_saude_desc">Conte com uma rede de cobertura\n completa, preços que cabem no seu bolso\n e o melhor: você monta o plano que é \nideal para o seu momento.</string>
+    <string name="simule_seu_plano">Simule seu plano</string>
+    <string name="falha_no_login">Falha no login</string>
+    <string name="erro_no_servidor">Erro no servidor</string>
+    <string name="credenciais_invalidas">Credenciais inválidas</string>
+    <string name="pagina_implementada">Esta página será implementada\nnas próximas Sprints</string>
 </resources>

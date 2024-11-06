@@ -28,19 +28,22 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.btnValidar.setOnClickListener {
+        binding.imgBack.setOnClickListener {
+            findNavController().navigate(R.id.loginFragment)
+        }
+
+        binding.btnRecuperarSenha.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val dataNasc = binding.etDataNasc.text.toString().trim()
 
             if (email.isNotEmpty() && dataNasc.isNotEmpty()) {
                 lifecycleScope.launch {
                     try {
-                        // Cria a requisição com e-mail e data de nascimento
                         val request = ValidateUserRequest(email, dataNasc)
                         val response = RetrofitInstance.api.validateUser(request)
 
                         if (response.isSuccessful) {
-                            // Validação bem-sucedida, navega para a tela de redefinição de senha
+                            // navega para a tela de redefinição de senha
                             findNavController().navigate(R.id.resetPasswordFragment)
                         } else {
                             // Mostra uma mensagem de erro se os dados estiverem incorretos

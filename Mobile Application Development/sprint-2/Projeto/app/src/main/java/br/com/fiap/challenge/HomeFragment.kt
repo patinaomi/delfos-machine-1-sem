@@ -29,31 +29,29 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.imgBack.setOnClickListener {
+            findNavController().navigate(R.id.loginFragment)
+        }
+
         val sharedPref = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val clienteId = sharedPref.getString("clienteId", "") ?: ""
 
-        if (clienteId != null) {
-            lifecycleScope.launch {
-                try {
-                    val response = RetrofitInstance.api.getCliente(clienteId)
-                    if (response.isSuccessful) {
-                        val user = response.body()
-                        val displayName = user?.nome ?: getString(R.string.user)
-                        binding.textViewWelcome.text = getString(R.string.welcome_message, displayName)
-                    } else {
-                        binding.textViewWelcome.text = getString(R.string.welcome_message, getString(R.string.user))
-                    }
-                } catch (e: Exception) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitInstance.api.getCliente(clienteId)
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    val displayName = user?.nome ?: getString(R.string.user)
+                    binding.textViewWelcome.text = getString(R.string.welcome_message, displayName)
+                } else {
                     binding.textViewWelcome.text = getString(R.string.welcome_message, getString(R.string.user))
                 }
+            } catch (e: Exception) {
+                binding.textViewWelcome.text = getString(R.string.welcome_message, getString(R.string.user))
             }
-        } else {
-            binding.textViewWelcome.text = getString(R.string.welcome_message, getString(R.string.user))
         }
 
-        binding.buttonEditProfile.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
-        }
+
     }
 
     override fun onDestroyView() {
