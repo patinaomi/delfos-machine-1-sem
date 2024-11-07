@@ -1,5 +1,5 @@
 # Etapa de build
-FROM maven:3.8-openjdk-21 AS base
+FROM maven:3.9.4-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Copia o arquivo de configuração Maven e instala as dependências
@@ -8,15 +8,15 @@ RUN mvn dependency:go-offline
 
 # Copia o código e executa o build
 COPY . .
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
-# Etapa final
-FROM openjdk:21-slim
+# Etapa final - Imagem otimizada com JRE 21
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 EXPOSE 8080
 
-# Copia o JAR gerado na etapa anterior
-COPY --from=base /app/target/demo-0.0.1-SNAPSHOT.jar demo.jar
+# Copia o JAR gerado na etapa de build
+COPY --from=build /app/target/challenge-0.0.1-SNAPSHOT.jar app.jar
 
 # Comando de execução
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

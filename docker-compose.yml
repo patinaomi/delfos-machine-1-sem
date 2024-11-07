@@ -1,0 +1,40 @@
+version: '2.2'
+
+services:
+  oracle-server-db:
+    container_name: oracle-server-db
+    image: gvenzl/oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: "240794"
+
+  java-service:
+    container_name: java-service
+    build:
+      context: Java_Advanced/sprint-2/challenge
+      dockerfile: Dockerfile
+    depends_on:
+      - oracle-server-db
+    environment:
+      DB_HOST: oracle-server-db
+      DB_PORT: 1521
+      DB_USER: oracle
+      DB_PASSWORD: "240794"
+    ports:
+      - "8080:8080"
+
+  dotnet-service:
+    container_name: dotnet-service
+    build:
+      context: Advanced_Business_With_DotNet/sprint-2/DelfosMachine
+      dockerfile: Dockerfile
+    depends_on:
+      - oracle-server-db
+    environment:
+      DB_HOST: oracle-server-db
+      DB_PORT: 1521
+      DB_USER: oracle
+      DB_PASSWORD: "240794"
+    ports:
+      - "5000:80"
