@@ -1,0 +1,28 @@
+@model IEnumerable<DelfosMachine.Models.HorarioPreferencia>
+
+<h2>Horário de preferência do cliente</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Horário</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dias in Model)
+        {
+            <tr>
+                <td>@dias.IdCliente</td>
+                <td>@dias.Horario</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="form-group pt-3">
+    <a asp-controller="HorarioPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+    <a asp-controller="HorarioPreferencia" asp-action="Criar" class="btn btn-primary">Criar</a>
+    <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+</div>
+
