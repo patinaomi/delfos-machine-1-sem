@@ -1,0 +1,42 @@
+@model IEnumerable<DelfosMachine.Models.SugestaoConsulta>
+
+@{
+    ViewData["Title"] = "Consultar Sugestões de Consulta";
+}
+
+<h2>Consultar Sugestões de Consulta</h2>
+
+<div class="container">
+    @if (!Model.Any())
+    {
+        <p>Nenhuma sugestão de consulta disponível no momento.</p>
+    }
+    else
+    {
+        foreach (var sugestao in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">@sugestao.Tratamento</h5>
+                    <p class="card-text">Cliente: @sugestao.Cliente</p>
+                    <p class="card-text">Clínica: @sugestao.Clinica</p>
+                    <p class="card-text">Especialista: @sugestao.Especialista</p>
+                    <p class="card-text">Data Preferida: @sugestao.DescricaoDiaPreferencia</p>
+                    <p class="card-text">Horário Preferido: @sugestao.DescricaoHorarioPreferencia</p>
+                    <p class="card-text">Turno Preferido: @sugestao.DescricaoTurno</p>
+                    <p class="card-text">Custo: R$ @sugestao.Custo</p>
+                    <p class="card-text">Status: @sugestao.StatusSugestao</p>
+                    
+                    <div class="d-flex justify-content-between">
+                        <form asp-action="Aceitar" asp-route-id="@sugestao.IdSugestao" method="post">
+                            <button type="submit" class="btn btn-success">Aceitar</button>
+                        </form>
+                        <form asp-action="Recusar" asp-route-id="@sugestao.IdSugestao" method="post">
+                            <button type="submit" class="btn btn-danger">Recusar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
