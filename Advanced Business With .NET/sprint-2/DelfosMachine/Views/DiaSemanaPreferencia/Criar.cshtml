@@ -1,0 +1,89 @@
+@using System.Security.Claims
+@model DelfosMachine.Models.DiaSemanaPreferencia
+
+@{
+    ViewData["Title"] = "Criar Preferências do Usuário - Dias da semana";
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
+
+<section class="d-flex justify-content-center align-items-center mb-5" style="height: 80vh">
+    
+    <div class="w-20 d-flex align-items-center justify-content-center" style="height: 70vh; padding-right: 10px;">
+        
+        <div class="container-fluid border p-4" style="min-height: 70vh; width: 60vh;">
+
+            <!-- Saudação personalizada -->
+                <h6 class="mb-4">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        @* Exibe o nome do usuário se ele estiver logado *@
+                        <span>Olá @User.Identity.Name, esperamos que esteja bem!</span>
+
+                        //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                        <p>Id do banco: @userId</p>
+
+                    }
+                    else
+                    {
+                        @* Exibe "Visitante" se o usuário não estiver logado. Não tem que acontecer aqui, mas vou deixar por precaução. *@
+                        <span>Bem-vindo, Visitante! Faça login para acessar suas informações.</span>
+                    }
+                </h6>
+            <p>Preenchendo suas preferências, além de pontuar no programa de benefícios, você vai ter um atendimento como nunca imaginou.</p>
+
+            <h2 class="fs-4">Definir Preferências</h2>
+
+            <form asp-action="Criar" method="post">
+
+                <!-- Campo oculto para armazenar o ID do Cliente -->
+                <input type="hidden" asp-for="IdCliente" value="@userId" />
+
+                <!-- Checkboxes para os dias da semana -->
+                <div class="form-group">
+                    <label asp-for="DiaSemana" class="control-label fs-6">Selecione os dias disponíveis:</label>
+                    <select asp-for="DiaSemana" class="form-control">
+                        <option value="">-- Selecione um dia --</option>
+                        <option value="segunda">Segunda-feira</option>
+                        <option value="terca">Terça-feira</option>
+                        <option value="quarta">Quarta-feira</option>
+                        <option value="quinta">Quinta-feira</option>
+                        <option value="sexta">Sexta-feira</option>
+                        <option value="sabado">Sábado</option>
+                        <option value="domingo">Domingo</option>
+                    </select>
+                    <span asp-validation-for="DiaSemana" class="text-danger"></span>
+                </div>
+                
+               <div class="form-group pt-3">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                    <!-- Botão que redireciona para a página CriarDiaSemanaPreferencia -->
+                    <a asp-controller="TurnoPreferencia" asp-action="Criar" class="btn btn-secondary">Continuar</a>
+
+                    <!-- Botão que redireciona para a ação Consultar do controller EnderecoPreferencia -->
+                    <a asp-controller="DiaSemanaPreferencia" asp-action="Consultar" class="btn btn-secondary">Consultar</a>
+
+                    <!-- Botão que redireciona de volta a etapa anterior -->
+                    <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-secondary bg-yellow">Voltar</a>
+                </div>
+
+                <!-- Exibir alerta de sucesso, se houver -->
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success mt-3">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+            </form>
+
+        </div>
+    </div>
+
+    <div class="w-80" style="height: 70vh">
+        <img src="~/assets/CadastroCliente/imagem3.png" alt="Imagem de fundo para área de cadastro cliente" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

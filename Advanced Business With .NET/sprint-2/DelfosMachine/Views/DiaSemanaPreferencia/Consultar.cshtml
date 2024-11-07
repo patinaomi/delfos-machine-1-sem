@@ -1,0 +1,28 @@
+@model IEnumerable<DelfosMachine.Models.DiaSemanaPreferencia>
+
+<h2>Dias de preferência do cliente</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Dias</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dias in Model)
+        {
+            <tr>
+                <td>@dias.IdCliente</td>
+                <td>@dias.DiaSemana</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="form-group pt-3">
+    <a asp-controller="DiaSemanaPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+    <a asp-controller="DiaSemanaPreferencia" asp-action="Criar" class="btn btn-primary">Criar</a>
+    <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+</div>
+
