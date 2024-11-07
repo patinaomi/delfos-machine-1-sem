@@ -1,0 +1,54 @@
+@model DelfosMachine.Models.Login
+
+@{
+    ViewData["Title"] = "Realizar Login";
+}
+
+<section class="d-flex justify-content-center align-items-center mt-5" style="height: 70vh">
+    <!-- Container do Formulário ocupando 20% da largura e 100% da altura -->
+    <div class="w-20 d-flex align-items-center justify-content-center pt-5" style="height: 100vh; padding-right: 10px;">
+        <div class="container-fluid border p-4" style="min-height: 80vh; width: 60vh;">
+            <h2>Login</h2>
+            <p>Se você é cadastrado, faça o login para ter acesso a todos os conteúdos.</p>
+            <form class="form-horizontal" asp-action="Logar" method="post">
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Senha" class="control-label"></label>
+                    <input asp-for="Senha" class="form-control" type="password" placeholder="Exemplo 123456"/>
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"> Lembrar
+                        </label>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group w-100">
+                    <input type="submit" value="Login" class="btn btn-primary w-100" />
+                </div>
+            </form>
+
+            <h2 class="mt-5">Cadastre-se</h2>
+            <p>Se ainda não possui uma conta, realize o cadastro e conheça nossos produtos e serviços.</p>
+            <div class="nav-item text-center">
+                <a class="nav-link text-dark border bg-blue rounded btn-primary text-white" asp-area="" asp-controller="Cliente" asp-action="Criar">Cadastro</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container da Imagem ocupando 80% da largura e 100% da altura -->
+    <div class="w-80 mt-5" style="height: 80vh">
+        <img src="~/assets/CadastroCliente/imagem1.jpg" alt="Imagem de fundo para área de cadastro cliente" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
