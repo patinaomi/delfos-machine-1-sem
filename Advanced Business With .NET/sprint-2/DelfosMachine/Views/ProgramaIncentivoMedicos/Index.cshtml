@@ -1,0 +1,52 @@
+@model DelfosMachine.Models.ProgramaIncentivoMedicos
+
+<section>
+    <h1>Programa de Incentivo - @Model.Nome</h1>
+    <p>Pontos acumulados: <strong>@Model.TotalPontos</strong></p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Atividade</th>
+                <th>Status</th>
+                <th>Pontos</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var atividade in Model.Atividades)
+            {
+                <tr>
+                    <td>@atividade.Descricao</td>
+                    <td>
+                        @if (atividade.Status == "pendente")
+                        {
+                            <span class="text-danger">Pendente</span>
+                        }
+                        else
+                        {
+                            <span class="text-success">Concluído</span>
+                        }
+                    </td>
+                    <td>@atividade.Pontos</td>
+                    <td>
+                        @if (atividade.Status == "pendente")
+                        {
+                            <form asp-action="ConcluirAtividade" method="post">
+                                <input type="hidden" name="idCliente" value="@Model.IdCliente" />
+                                <input type="hidden" name="idAtividade" value="@atividade.Id" />
+                                <button type="submit" class="btn btn-primary">Concluir</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group pt-3">
+        <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary">Home</a>
+        <a asp-controller="PaginaCliente" asp-action="Index" class="btn btn-warning">Voltar</a>
+    </div>
+    
+</section>
