@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Página de gestão dos clientes";
+}
+
+<div class="text-center min-vh-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h5 class="display-4">Gestão das clínicas</h5>
+                
+                <div class="d-flex justify-content-center gap-3">
+
+                    <div class="d-flex justify-content-center mt-4">
+                            <div class="card shadow-lg rounded-lg overflow-hidden" style="max-width: 18rem;">
+                                <img
+                                    alt="Card"
+                                    src="/assets/PaginaLogadaClinica/imagem.png"
+                                    class="img-fluid"
+                                />
+                                <div class="card-body">
+                                    <h3 class="card-title w-100">Serviços pendentes</h3>
+                                    <p class="">
+                                        Em acionamento
+                                    </p>
+                                    <a href="@Url.Action("Index", "ServicosPendentes")" class="btn btn-primary w-100">
+                                        clique aqui <i class="pi pi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-4">
+                            <div class="card shadow-lg rounded-lg overflow-hidden" style="max-width: 18rem;">
+                                <img
+                                    alt="Card"
+                                    src="/assets/PaginaLogadaClinica/gestao.png"
+                                    class="img-fluid"
+                                />
+                                <div class="card-body">
+                                    <h3 class="card-title">Agenda</h3>
+                                    <p class="">
+                                       Serviços confirmados
+                                    </p>
+                                    <a href="@Url.Action("Consultar", "Agendamento")" class="btn btn-primary w-100">
+                                        clique aqui <i class="pi pi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-4">
+                            <div class="card shadow-lg rounded-lg overflow-hidden" style="max-width: 18rem;">
+                                <img
+                                    alt="Card"
+                                    src="/assets/PaginaLogadaClinica/imagem.png"
+                                    class="img-fluid"
+                                />
+                                <div class="card-body">
+                                    <h3 class="card-title">Gestão Clínica</h3>
+                                    <p class="">
+                                       Administração dos cadastros
+                                    </p>
+                                    <a href="@Url.Action("Index", "Medico")" class="btn btn-primary w-100">
+                                        clique aqui <i class="pi pi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group pt-3 mb-5">
+                <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary">Home</a>
+                <a asp-controller="Home" asp-action="Hero" class="btn btn-primary">Voltar</a>
+            </div>  
+        </div>
+    </div>
+</div>
