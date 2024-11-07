@@ -1,0 +1,41 @@
+@model IEnumerable<DelfosMachine.Models.Medico>
+
+@{
+    ViewData["Title"] = "Lista de Médicos";
+}
+
+<h2>Lista de Médicos</h2>
+
+<a asp-action="Criar" class="btn btn-success">Cadastrar Novo Médico</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Especialidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var medico in Model)
+        {
+            <tr>
+                <td>@medico.Nome</td>
+                <td>@medico.Email</td>
+                <td>@medico.Telefone</td>
+                <td>@medico.Especialidade</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@medico.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Excluir" asp-route-id="@medico.Id" class="btn btn-danger">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary">Home</a>
+    <a asp-controller="PaginaClinica" asp-action="Index" class="btn btn-warning">Voltar</a>
+</div>

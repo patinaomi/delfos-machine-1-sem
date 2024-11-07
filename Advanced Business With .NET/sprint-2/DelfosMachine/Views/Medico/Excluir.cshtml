@@ -1,0 +1,32 @@
+@model DelfosMachine.Models.Medico
+
+@{
+    ViewData["Title"] = "Excluir Médico";
+}
+
+<h2>Excluir Médico</h2>
+
+<div>
+    <h4>Tem certeza que deseja excluir o médico @Model.Nome?</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">@Model.Nome</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+        <dt class="col-sm-2">Telefone</dt>
+        <dd class="col-sm-10">@Model.Telefone</dd>
+
+        <dt class="col-sm-2">Especialidade</dt>
+        <dd class="col-sm-10">@Model.Especialidade</dd>
+    </dl>
+
+    <form asp-action="Excluir" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <input type="submit" value="Excluir" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
