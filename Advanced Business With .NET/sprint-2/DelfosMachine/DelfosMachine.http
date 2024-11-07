@@ -1,6 +1,0 @@
-@DelfosMachine_HostAddress = http://localhost:5034
-
-GET {{DelfosMachine_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
