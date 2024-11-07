@@ -1,0 +1,51 @@
+@model IEnumerable<DelfosMachine.Models.ServicosPendentes>
+@{
+    ViewData["Title"] = "Serviços Pendentes";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Serviços Pendentes</h1>
+    
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Cliente</th>
+                <th>Descrição</th>
+                <th>Localização</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var servico in Model)
+            {
+                <tr>
+                    <td>@servico.Cliente</td>
+                    <td>@servico.Descricao</td>
+                    <td>@servico.Localizacao</td>
+                    <td>@servico.Data</td>
+                    <td>@servico.Hora</td>
+                    <td>
+                        <span class="badge @(servico.Status == "aceito" ? "badge-success" : servico.Status == "recusado" ? "badge-danger" : "badge-warning")">
+                            @servico.Status
+                        </span>
+                    </td>
+                    <td>
+                        @if (servico.Status == "pendente")
+                        {
+                            <button class="btn btn-success btn-sm" onclick="aceitarServico(@servico.Id)">Aceitar</button>
+                            <button class="btn btn-danger btn-sm" onclick="recusarServico(@servico.Id)">Recusar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="form-group pt-3">
+    <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary">Home</a>
+    <a asp-controller="PaginaClinica" asp-action="Index" class="btn btn-warning">Voltar</a>
+</div>
