@@ -1,0 +1,96 @@
+@using System.Security.Claims
+@model DadosCadastrais
+
+@{
+    ViewData["Title"] = "Dados Cadastrais";
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
+
+<main class="min-h-100vh" style="min-height: 160vh">
+    <h2>Dados Cadastrais</h2>
+
+    <!-- Saudação personalizada -->
+    <h6 class="mb-4">
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            @* Exibe o nome do usuário se ele estiver logado *@
+            <span>Olá @User.Identity.Name, esperamos que esteja bem!</span>
+
+        }
+        else
+        {
+            @* Exibe "Visitante" se o usuário não estiver logado. Não tem que acontecer aqui, mas vou deixar por precaução. *@
+            <span>Bem-vindo, Visitante! Faça login para acessar suas informações.</span>
+        }
+    </h6>
+
+    <p>Deixe seus dados atualizados e receba as mehlores recomendações. Acompanhe também nosso programa de benefícios, feito personalizado para você</p>
+
+    <div class="grid gap-5">
+        <!-- Seção com dados dos clientes -->
+        <section class="card p-3 mb-2 shadow-lg bg-body-tertiary rounded">
+            <h3>Dados pessoais</h3>
+            <p>Nome: @Model.Cliente.Nome</p>
+            <p>E-mail: @Model.Cliente.Email</p>
+            <p>Telefone: @Model.Cliente.Telefone</p>
+            <p>Gênero: @Model.Cliente.Genero</p>
+            <p>Data nascimento: @Model.Cliente.DataNasc</p>
+            <p>Senha: @Model.Cliente.Senha</p>
+
+            <div class="form-group pt-3">
+                <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+                <a asp-controller="Cliente" asp-action="Atualizar" class="btn btn-primary">Atualizar</a>
+                <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+            </div>
+
+        </section>
+
+        <!-- Seção de Endereço de Preferência -->
+        <section  class="card p-3 mb-2 shadow-lg bg-body-tertiary rounded">
+            <h3>Endereço de Preferência</h3>
+            <p>CEP: @Model.Endereco.CEP</p>
+            <p>Estado: @Model.Endereco.Estado</p>
+            <p>Cidade: @Model.Endereco.Cidade</p>
+            <p>Bairro: @Model.Endereco.Bairro</p>
+            <p>Rua: @Model.Endereco.Rua</p>
+            <p>Complemento: @Model.Endereco.Complemento</p>
+
+            <div class="form-group pt-3">
+                <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+                <a asp-controller="Cliente" asp-action="Atualizar" class="btn btn-primary">Atualizar</a>
+                <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+            </div>
+
+        </section>
+
+        <!-- Seção de Dias da Semana -->
+        <section  class="card p-3 mb-2 shadow-lg bg-body-tertiary rounded">
+            <h3>Dias da Semana</h3>
+            <p>Dias: @Model.DiaSemana.DiaSemana</p>
+
+            <div class="form-group pt-3">
+                <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+                <a asp-controller="Cliente" asp-action="Atualizar" class="btn btn-primary">Atualizar</a>
+                <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+            </div>
+
+        </section>
+
+        <!-- Seção de Horários -->
+        <section  class="card p-3 mb-2 shadow-lg bg-body-tertiary rounded">
+            <h3>Turno</h3>
+            <p>@Model.Turnos.Turno</p> <!-- Exibe apenas um único turno -->
+
+            <h3>Horário</h3>
+            <p>@Model.Horarios.Horario</p> <!-- Exibe apenas um único horário -->
+
+            <div class="form-group pt-3">
+                <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+                <a asp-controller="Cliente" asp-action="Atualizar" class="btn btn-primary">Atualizar</a>
+                <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+            </div>
+        </section>
+
+    </div>
+
+</main>
