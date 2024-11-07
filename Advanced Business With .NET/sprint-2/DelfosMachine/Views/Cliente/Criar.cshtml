@@ -1,0 +1,63 @@
+@model DelfosMachine.Models.Cliente
+
+@{
+    ViewData["Title"] = "Cadastro de Cliente";
+}
+
+<section class="d-flex justify-content-center align-items-center mt-5" style="height: 60vh">
+    <!-- Container do Formulário ocupando 20% da largura e 100% da altura -->
+    <div class="w-20 d-flex align-items-center justify-content-center pt-5" style="height: 100vh; padding-right: 10px;">
+        <div class="container-fluid border p-4" style="min-height: 80vh; width: 60vh;">
+            <h2>cadastrar cliente</h2>
+            <form asp-action="Criar" method="post">
+                <div class="form-group">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telefone" class="control-label"></label>
+                    <input asp-for="Telefone" class="form-control" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Genero" class="control-label"></label>
+                    <select asp-for="Genero" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                    <span asp-validation-for="Genero" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DataNasc" class="control-label"></label>
+                    <input asp-for="DataNasc" class="form-control" type="date"/>
+                    <span asp-validation-for="DataNasc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Senha" class="control-label">Senha</label>
+                    <input asp-for="Senha" class="form-control" type="password"/>
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                    <a asp-action="Consultar" class="btn btn-secondary">Consultar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Container da Imagem ocupando 80% da largura e 100% da altura -->
+    <div class="w-80 mt-5" style="height: 80vh">
+        <img src="~/assets/CadastroCliente/imagem1.jpg" alt="Imagem de fundo para área de cadastro cliente" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
