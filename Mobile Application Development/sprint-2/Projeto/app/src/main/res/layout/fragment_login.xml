@@ -132,7 +132,7 @@
         android:fontFamily="@font/noto_sans_medium"
         android:text="@string/texto_banner"
         android:textColor="#003EA6"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
