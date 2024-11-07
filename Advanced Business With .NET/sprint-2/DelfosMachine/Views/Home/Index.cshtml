@@ -1,0 +1,73 @@
+﻿﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center min-vh-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h5 class="display-4">Gestão de clientes e parceiros</h5>
+                <div class="d-flex justify-content-center gap-3">
+
+                    <div class="d-flex justify-content-center mt-4">
+                            <div class="card shadow-lg rounded-lg overflow-hidden" style="max-width: 18rem;">
+                                <img
+                                    alt="Card"
+                                    src="/assets/Hero/imagem1.jpg"
+                                    class="img-fluid"
+                                />
+                                <div class="card-body">
+                                    <h3 class="card-title w-100">Cliente</h3>
+                                    <p class="">
+                                        Nesta workspace, você encontrará informações relacionados aos clientes, como cadastro, sugestão de agendamentos e consultas agendadas.
+                                    </p>
+                                    <a href="@Url.Action("Index", "PaginaCliente")" class="btn btn-primary w-100">
+                                        clique aqui <i class="pi pi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-4">
+                            <div class="card shadow-lg rounded-lg overflow-hidden" style="max-width: 18rem;">
+                                <img
+                                    alt="Card"
+                                    src="/assets/CadastroClinica/imagem1.jpg"
+                                    class="img-fluid"
+                                />
+                                <div class="card-body">
+                                    <h3 class="card-title">Clínica</h3>
+                                    <p class="">
+                                        Nesta workspace, você encontrará informações específicas para clinicas, como gestão da agenda, serviços pendentes, avaliações dos atendimentos.
+                                    </p>
+                                    <a href="@Url.Action("Index", "PaginaClinica")" class="btn btn-primary w-100">
+                                        clique aqui <i class="pi pi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-4">
+                            <div class="card shadow-lg rounded-lg overflow-hidden" style="max-width: 18rem;">
+                                <img
+                                    alt="Card"
+                                    src="/assets/Login/imagem1.jpg"
+                                    class="img-fluid"
+                                />
+                                <div class="card-body">
+                                    <h3 class="card-title">Especialista</h3>
+                                    <p class="">
+                                        Nesta workspace, você encontrará informações disponíveis para os nossos especialistas (médicos), como programa de recompensa, cadastro, serviços realizados.
+                                    </p>
+                                    <a href="@Url.Action("Index", "PaginaMedicos")" class="btn btn-primary w-100">
+                                        clique aqui <i class="pi pi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

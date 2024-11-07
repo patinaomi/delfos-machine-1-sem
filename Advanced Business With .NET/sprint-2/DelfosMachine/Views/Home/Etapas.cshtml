@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Etapas do Projeto";
+}
+<h1>@ViewData["Title"]</h1>
+
+<span class="fw-bold">Será necessário implementar seis fases no nosso projeto, para que possamos atender a demanda da OdontoPrev</span>
+
+<span class="fw-bold">1. Coletar Dados do Cliente</span>
+<p>Utilizar o formulário de cadastro para coletar informações como localização preferida pelo cliente, avaliações de satisfação das clinicas e médicos, além dos valores de consultas com preco acessível. Na solução apresentada, se tiver qualidade, mostra que mesmo com custo baixo, a consulta pode atender a necessidade do cliente.</p>
+
+<h3>2. Banco de dados</h3>
+<p>O que será feito - Oracle? Inserir as informações por meio da aplicação DOTNET no banco e, para coletar elas, usaremos a bilioteca do Oracle para conectar no banco e criar um dataframe.</p>
+
+<h3>3. Tratamento dos dados</h3>
+<p>O que será feito com a biblioteca Pandas? Utilizar a biblioteca Pandas para organizar e analisar os dados dos clientes, feedback, clinicas e especilistas. Seperar as tabelas em fases, para que em uma das fases, consigamos criar e treinar o modelo para sugerir as consultas, segunda fase será separar os dados para treinar o modelo que vai aprender a interpretar as informações dos feedbacks e ajustar na base para que os especilistas tenham conhecimento de como estão sendo seus atendimentos, por fim, acompanhar e validar o programa de beneficio.</p>
+
+<h3>4. Treinamento dos modelos</h3>
+<p>O que será feito - Scikit-Learn? Utilizar Scikit-Learn para classificar as clínicas e especialistas com base nas avaliações de satisfação, além de agrupar os feedbacks em categorias, sendo excelente, bons e ruins.</p>
+
+<h3>5. Criar API para uso dos parceiros</h3>
+<p>O que será feito - Flask? Criar uma API com Flask para fornecer as sugestões de consultas ao aplicativo. Vamos realizar testes depois do modelo treinado, para saber se ele vai localizar na base comentários ruins para evitar sugestões de atendimentos ruins.
+
+Vamos utilizar esta API para na sessão do Médico/Especialista, conste todos os feedbacks enviados para eles, mas não os que os clientes cadastraram e sim a percepção do atendimento. Um cliente pode ter dados nota 5, mas no comentário colocou que o médico não deu os devidos detalhes, neste caso, a nota não será 5 e sim um dois ou três por exemplo. O cinco pode ter sido para clinica, mas não para o médico.</p>
+
+<h3>6. Validar os treinamos e gerar Dashboards com os rsultados</h3>
+<p>O que será feito com Matplotlib? Utilizar Matplotlib para criar gráficos que mostrem os custos e economias das consultas sugeridas. Essa informação ficará disponível no painel do cliente e das clínicas.</p>
