@@ -9,6 +9,9 @@ Essa frase reflete o foco na prevenção para garantir a saúde do cliente, ao m
 Falamos na rua, pois queremos atender 100% da carteira de cliente, para que todos façam consultas preventivas, evitando e previnindo 
 consultas emegências, que podem acarretar altos custos.
 
+## Video do Projeto
+Também disponibilizamos um vídeo no YouTube demonstrando nossa solução e explicando as principais funcionalidades do projeto. Você pode assisti-lo através do seguinte link: [Link do Video no Youtube](https://youtu.be/CjscKHcfp7c)
+
 ## Objetivo
 
 Nosso objetivo é reduzir os altos custos de sinistros, sem evitar consultas, mas sim prevenindo consultas de valores elevados e fora do comum.  Ao incentivar consultas preventivas, economizaremos recursos e diminuiremos a necessidade de atendimentos emergenciais.
