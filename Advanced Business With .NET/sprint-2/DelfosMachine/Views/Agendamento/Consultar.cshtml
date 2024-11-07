@@ -1,0 +1,105 @@
+@model List<Agendamento>
+
+<section>
+    <div class="container min-heigh-100vh">
+        <h1 class="mb-5">Agenda Eletrônica</h1>
+        <p>Está página tem o objetivo de mostrar um modelo do que pretendemos mostrar ao cliente. Com o objetivo de ilustrar os Agendamentos que ele aceitou de sugestão e que estão pendentes de ocorrer. Aqui ainda não virou uma consulta, pois ele não realizou os procedimentos. </p>
+        
+        <div class="row border p-2">
+            @foreach (var dia in new[] { "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" })
+            {
+                <div class="col-md-2">
+                    <h2 class="text-center">@dia</h2>
+                    @foreach (var agendamento in Model.Where(a => a.Dia == dia))
+                    {
+                        <div class="card mb-2 mb-5 p-1">
+                            <div class="card-body">
+                                <p><strong>Hora:</strong> @agendamento.Hora</p>
+                                <p><strong>Médico:</strong> @agendamento.Medico</p>
+                                <p><strong>Cliente:</strong> @agendamento.Cliente</p>
+                                <p><strong>Tipo de Consulta:</strong> @agendamento.TipoConsulta</p>
+                                <p><strong>Descrição:</strong> @agendamento.Descricao</p>
+                                <p><strong>Status:</strong> @agendamento.Status</p>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#alterarModal-@agendamento.Id">Alterar</button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal-@agendamento.Id">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Alteração -->
+                        <div class="modal fade" id="alterarModal-@agendamento.Id" tabindex="-1" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="AlterarConsulta" method="post">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Alterar Consulta</h5>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" value="@agendamento.Id" />
+                                            <div class="form-group">
+                                                <label>Médico</label>
+                                                <input type="text" name="Medico" class="form-control" value="@agendamento.Medico" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Cliente</label>
+                                                <input type="text" name="Cliente" class="form-control" value="@agendamento.Cliente" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Dia</label>
+                                                <input type="text" name="Dia" class="form-control" value="@agendamento.Dia" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Hora</label>
+                                                <input type="text" name="Hora" class="form-control" value="@agendamento.Hora" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Descrição</label>
+                                                <input type="text" name="Descricao" class="form-control" value="@agendamento.Descricao" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Salvar</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Cancelamento -->
+                        <div class="modal fade" id="cancelarModal-@agendamento.Id" tabindex="-1" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="CancelarConsulta" method="post">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Cancelar Consulta</h5>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" value="@agendamento.Id" />
+                                            <div class="form-group">
+                                                <label>Motivo do Cancelamento</label>
+                                                <textarea name="motivo" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group pt-2">
+        <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary">Home</a>
+        <a asp-controller="PaginaCliente" asp-action="Index" class="btn btn-warning">Voltar</a>
+    </div>
+</section>
