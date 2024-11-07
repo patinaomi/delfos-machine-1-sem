@@ -1,0 +1,71 @@
+@using System.Security.Claims
+@model DelfosMachine.Models.TurnoPreferencia
+
+@{
+    ViewData["Title"] = "Criar Preferências do Usuário";
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
+
+
+
+<section class="d-flex justify-content-center align-items-center mb-5" style="height: 100vh">
+    
+    <div class="w-20 d-flex align-items-center justify-content-center" style="height: 100vh; padding-right: 10px;">
+        
+        <div class="container-fluid border p-4" style="min-height: 100vh; width: 60vh;">
+
+            <!-- Saudação personalizada -->
+                <h6 class="mb-4">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        @* Exibe o nome do usuário se ele estiver logado *@
+                        <span>Olá @User.Identity.Name, esperamos que esteja bem!</span>
+
+                        //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                        <p>Id do banco: @userId</p>
+
+                    }
+                    else
+                    {
+                        @* Exibe "Visitante" se o usuário não estiver logado. Não tem que acontecer aqui, mas vou deixar por precaução. *@
+                        <span>Bem-vindo, Visitante! Faça login para acessar suas informações.</span>
+                    }
+                </h6>
+            <p>Preenchendo suas preferências, além de pontuar no programa de benefícios, você vai ter um atendimento como nunca imaginou.</p>
+
+            <h2 class="fs-4">Definir Preferências</h2>
+
+            <form asp-action="Criar" method="post">
+
+                <!-- Campo oculto para armazenar o ID do Cliente -->
+                <input type="hidden" asp-for="IdCliente" value="@userId" />
+
+                <div class="form-group">
+                    <label asp-for="Turno" class="control-label fs-6"></label>
+                        <select asp-for="Turno" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="Manha">Manhã</option>
+                            <option value="Tarde">Tarde</option>
+                            <option value="Noite">Noite</option>
+                        </select>
+                    <span asp-validation-for="Turno" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pt-3">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                    <a asp-action="CriarHorarioPreferencia" class="btn btn-secondary">Continuar</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="w-80" style="height: 100vh">
+        <img src="~/assets/CadastroCliente/imagem1.jpg" alt="Imagem de fundo para área de cadastro cliente" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

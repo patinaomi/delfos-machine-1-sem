@@ -1,0 +1,65 @@
+@model IEnumerable<DelfosMachine.Models.PreferenciaCliente>
+
+@{
+    ViewData["Title"] = "Consultar Preferências";
+}
+
+<h2>Consultar Preferências</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Endereço</th>
+            <th>Dia da Semana</th>
+            <th>Turno</th>
+            <th>Horário</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdCliente</td>
+                <td>
+                    @{
+                        var endereco = item.EnderecoPreferencia != null 
+                            ? $"{item.EnderecoPreferencia.Rua}, {item.EnderecoPreferencia.Bairro}, {item.EnderecoPreferencia.Cidade}" 
+                            : "Endereço não disponível";
+                    }
+                    @endereco
+                </td>
+                <td>
+                    @if (item.DiaSemanaPreferencia != null)
+                    {
+                        @item.DiaSemanaPreferencia.DiaSemana
+                    }
+                    else
+                    {
+                        <text>Dia da semana não disponível</text>
+                    }
+                </td>
+                <td>
+                    @if (item.TurnoPreferencia != null)
+                    {
+                        @item.TurnoPreferencia.Turno
+                    }
+                    else
+                    {
+                        <text>Turno não disponível</text>
+                    }
+                </td>
+                <td>
+                    @if (item.HorarioPreferencia != null)
+                    {
+                        @item.HorarioPreferencia.Horario
+                    }
+                    else
+                    {
+                        <text>Horário não disponível</text>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
