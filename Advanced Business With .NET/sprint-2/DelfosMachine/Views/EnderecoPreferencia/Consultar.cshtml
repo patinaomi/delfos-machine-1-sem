@@ -1,0 +1,34 @@
+@model IEnumerable<DelfosMachine.Models.EnderecoPreferencia>
+
+<h2>Endereço de preferência do cliente</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>CEP</th>
+            <th>Estado</th>
+            <th>Cida</th>
+            <th>Bairro</th>
+            <th>Rua</th>
+            <th>Complemento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var endereco in Model)
+        {
+            <tr>
+                <td>@endereco.CEP</td>
+                <td>@endereco.Estado</td>
+                <td>@endereco.Cidade</td>
+                <td>@endereco.Bairro</td>
+                <td>@endereco.Rua</td>
+                <td>@endereco.Complemento</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="form-group pt-3">
+    <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-warning">Voltar</a>
+    <a asp-controller="EnderecoPreferencia" asp-action="Criar" class="btn btn-primary">Criar</a>
+    <a asp-controller="Home" asp-action="Hero" class="btn btn-secondary bg-green">Home</a>
+</div>
