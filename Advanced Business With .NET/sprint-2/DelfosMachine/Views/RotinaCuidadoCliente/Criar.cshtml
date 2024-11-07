@@ -1,0 +1,109 @@
+@model DelfosMachine.Models.RotinaCuidadoCliente
+
+@{
+    ViewData["Title"] = "Criar Rotina de Cuidado do Cliente";
+}
+
+<section class="d-flex justify-content-center align-items-center mb-5" style="height: 100vh">
+    
+    <div class="w-20 d-flex align-items-center justify-content-center" style="height: 80vh; padding-right: 10px;">
+        <div class="container-fluid border p-4" style="min-height: 100vh; width: 70vh;">
+
+            <!-- Saudação personalizada -->
+                <h6 class="mb-4">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        @* Exibe o nome do usuário se ele estiver logado *@
+                        <span>@User.Identity.Name!</span>
+                    }
+                    else
+                    {
+                        @* Exibe "Visitante" se o usuário não estiver logado *@
+                        <span>Bem-vindo, Visitante! Faça login para acessar suas informações.</span>
+                    }
+                </h6>
+            <p>Preenchendo sua rotina, além de pontuar no programa de benefícios, você vai ter um atendimento como nunca imaginou. Preencha e veja o que acontece.</p>
+
+            <h2 class="fs-4">Rotina de Cuidado</h2>
+
+            <form asp-action="Mensagem" method="post">
+                <div class="form-group">
+                    <label asp-for="HistoricoMedico" class="control-label fs-6"> Histórico Médico</label>
+                    <input asp-for="HistoricoMedico" class="form-control" />
+                    <span asp-validation-for="HistoricoMedico" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FrequenciaEscovacao" class="control-label fs-6 pt-2">Frequência de escovação no dia</label>
+                    <select asp-for="FrequenciaEscovacao" class="form-control">
+                        @for (int i = 0; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="FrequenciaEscovacao" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FrequenciaFioDental" class="control-label fs-6 pt-2">Frequência do fio no dia</label>
+                    <select asp-for="FrequenciaFioDental" class="form-control">
+                        @for (int i = 0; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="FrequenciaFioDental" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FrequenciaEnxaguante" class="control-label fs-6 pt-2">Frequência de enxaguente bucal</label>
+                    <select asp-for="FrequenciaEnxaguante" class="form-control">
+                        @for (int i = 0; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="FrequenciaEnxaguante" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SintomasAtuais" class="control-label fs-6 pt-2">Algum sintoma?</label>
+                    <input asp-for="SintomasAtuais" class="form-control" />
+                    <span asp-validation-for="SintomasAtuais" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HabitosAlimentares" class="control-label fs-6 pt-2">Habitos alimentares</label>
+                    <select asp-for="HabitosAlimentares" class="form-control">
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                    <span asp-validation-for="HabitosAlimentares" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FrequenciaVisitasDentista" class="control-label fs-6 pt-2">Frequência de consultas no ano</label>
+                    <select asp-for="FrequenciaVisitasDentista" class="form-control">
+                        @for (int i = 0; i <= 12; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span asp-validation-for="FrequenciaVisitasDentista" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CuidadosEspecificos" class="control-label fs-6 pt-2">Descreva cuidados específicos</label>
+                    <input asp-for="CuidadosEspecificos" class="form-control pt-2" />
+                    <span asp-validation-for="CuidadosEspecificos" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                    <a asp-action="Consultar" class="btn btn-secondary">Consultar</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="w-80" style="height: 100vh">
+        <img src="~/assets/CadastroCliente/imagem1.jpg" alt="Imagem de fundo para área de cadastro cliente" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
