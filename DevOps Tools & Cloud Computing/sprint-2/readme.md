@@ -1,4 +1,5 @@
 
+
 # Projeto de Deploy com Docker e Azure
 
 ## Índice
@@ -85,8 +86,67 @@ Verifique que cada serviço responde corretamente e que a comunicação entre el
 
 ### 5. Links dos Dockerfiles
 [Dockerfile Java](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/sprint-2/challenge/Dockerfile)
+
+    # Etapa de build
+    FROM maven:3.9.4-eclipse-temurin-21 AS build
+    WORKDIR /app
+    
+    # Copia o arquivo de configuração Maven e instala as dependências
+    COPY pom.xml .
+    RUN mvn dependency:go-offline
+    
+    # Copia o código e executa o build
+    COPY . .
+    RUN mvn clean install -DskipTests
+    
+    # Etapa final - Imagem otimizada com JRE 21
+    FROM eclipse-temurin:21-jre
+    WORKDIR /app
+    EXPOSE 8080
+    
+    # Copia o JAR gerado na etapa de build
+    COPY --from=build /app/target/challenge-0.0.1-SNAPSHOT.jar app.jar
+    
+    # Comando de execução
+    ENTRYPOINT ["java", "-jar", "app.jar"]
+    
+
 [Dockerfile .NET](https://github.com/patinaomi/delfos-machine/blob/main/Advanced%20Business%20With%20.NET/sprint-2/DelfosMachine/Dockerfile)
-[Docker Compose](https://github.com/patinaomi/delfos-machine/blob/main/JAVA%20ADVANCED/sprint-2/challenge/Dockerfile)
+
+    FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+    WORKDIR /App
+    
+    # Copy everything
+    COPY . ./
+    # Restore as distinct layers
+    RUN dotnet restore
+    # Build and publish a release
+    RUN dotnet publish -c Release -o out
+    
+    # Build runtime image
+    FROM mcr.microsoft.com/dotnet/aspnet:8.0
+    WORKDIR /App
+    COPY --from=build-env /App/out .
+    ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
+
+[Docker Compose](https://github.com/patinaomi/delfos-machine/blob/main/docker-compose.yml)
+
+    services:
+      java-service:
+        container_name: java-service
+        build:
+          context: Java_Advanced/sprint-2/challenge
+          dockerfile: Dockerfile
+        ports:
+          - "8080:8080"
+    
+      dotnet-service:
+        container_name: dotnet-service
+        build:
+          context: Advanced_Business_With_DotNet/sprint-2/DelfosMachine
+          dockerfile: Dockerfile
+        ports:
+          - "5000:80"
 
 [:arrow_up: voltar para o índice :arrow_up:](#índice)
 
