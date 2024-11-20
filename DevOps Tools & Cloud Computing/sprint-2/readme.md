@@ -1,4 +1,3 @@
-<center> <img src ="https://github.com/patinaomi/lexus-tech/blob/main/Assets/lexus.png" width = 190px> </center>
 
 # Projeto de Deploy com Docker e Azure
 
